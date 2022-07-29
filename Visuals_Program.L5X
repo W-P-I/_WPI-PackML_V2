@@ -1,0 +1,752 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="33.00" TargetName="Visuals" TargetType="Program" TargetClass="Standard" ContainsContext="true" ExportDate="Fri Jul 29 11:43:36 2022" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Context" Name="Depositor_Dolciaria">
+<DataTypes Use="Context">
+<DataType Name="HMI_output_waypoints" Family="NoFamily" Class="User">
+<Description>
+<![CDATA[Waypoint Visual on hmi]]>
+</Description>
+<Members>
+<Member Name="ZZZZZZZZZZHMI_Visual0" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="Visual" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZHMI_Visual0" BitNumber="0" ExternalAccess="Read/Write"/>
+<Member Name="X" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Y" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+</DataTypes>
+<AddOnInstructionDefinitions Use="Context">
+<AddOnInstructionDefinition Name="CountUpAndDown" Class="Standard" Revision="1.0" Vendor="WPI" ExecutePrescan="false" ExecutePostscan="false" ExecuteEnableInFalse="false" CreatedDate="2020-09-25T08:25:08.432Z" CreatedBy="WPI\engineer" EditedDate="2021-06-08T13:32:05.324Z" EditedBy="WPI\valentino.violante"
+ SoftwareRevision="v33.00">
+<Parameters>
+<Parameter Name="EnableIn" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Input - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="EnableOut" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Output - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="CountingSpeed" TagType="Base" DataType="DINT" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[in miliseconds]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Count" TagType="Base" DataType="DINT" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="MaxCount" TagType="Base" DataType="DINT" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[max value to count to]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[10]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="10"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Holding_Time" TagType="Base" DataType="DINT" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[in milisec]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[2500]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="2500"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Done" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+</Parameters>
+<LocalTags>
+<LocalTag Name="Time_puls" DataType="TIMER" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[[0,500,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="TIMER">
+<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="500"/>
+<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="count_UP" DataType="BOOL" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[1]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="holdingtime" DataType="TIMER" Dimensions="2" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[[[0,0,0],[0,0,0]]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Array DataType="TIMER" Dimensions="2">
+<Element Index="[0]">
+<Structure DataType="TIMER">
+<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[1]">
+<Structure DataType="TIMER">
+<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+</Structure>
+</Element>
+</Array>
+</DefaultData>
+</LocalTag>
+</LocalTags>
+<Routines>
+<Routine Name="Logic" Type="RLL">
+<RLLContent>
+<Rung Number="0" Type="N">
+<Comment>
+<![CDATA[Set counting speed]]>
+</Comment>
+<Text>
+<![CDATA[NEQ(CountingSpeed,Time_puls.PRE)MOV(CountingSpeed,Time_puls.PRE);]]>
+</Text>
+</Rung>
+<Rung Number="1" Type="N">
+<Text>
+<![CDATA[XIO(Done)[[XIO(holdingtime[0].TT) ,XIC(holdingtime[0].DN) ] TON(Time_puls,?,?) ,XIC(Time_puls.DN) XIC(count_UP) ADD(1,Count,Count) ,XIC(Time_puls.DN) XIO(count_UP) [SUB(Count,1,Count) ,EQU(0,Count) OTL(Done) ] ,XIC(Time_puls.DN) RES(Time_puls) ];]]>
+</Text>
+</Rung>
+<Rung Number="2" Type="N">
+<Text>
+<![CDATA[GEQ(Count,MaxCount)MOV(Holding_Time,holdingtime[0].PRE)TON(holdingtime[0],?,?)XIC(holdingtime[0].DN)OTU(count_UP);]]>
+</Text>
+</Rung>
+<Rung Number="3" Type="N">
+<Text>
+<![CDATA[EQU(Count,0)OTL(count_UP);]]>
+</Text>
+</Rung>
+</RLLContent>
+</Routine>
+</Routines>
+</AddOnInstructionDefinition>
+</AddOnInstructionDefinitions>
+<Programs Use="Context">
+<Program Use="Target" Name="Visuals" TestEdits="false" MainRoutineName="MainRoutine" Disabled="false" Class="Standard" UseAsFolder="false">
+<Tags>
+<Tag Name="FALSE" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_Admin_Logged_in" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Event trigger from HMI]]>
+</Description>
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_Customer_Logged_in" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Event trigger from HMI]]>
+</Description>
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_Logoff" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Logoff button is pressed]]>
+</Description>
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_Menu_Slide" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_output" TagType="Base" DataType="HMI_output_waypoints" Dimensions="50" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[[[1,2.71000000e+002,3.20000000e+002],[1,2.72000000e+002,3.23000000e+002],[1,2.75000000e+002,3.24000000e+002
+		],[1,2.78000000e+002,3.23000000e+002],[1,2.79000000e+002,3.20000000e+002],[1,2.78000000e+002,3.17000000e+002
+		],[1,2.75000000e+002,3.16000000e+002],[1,2.72000000e+002,3.17000000e+002],[1,2.72000000e+002,3.17000000e+002
+		],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001
+		],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001
+		],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001
+		],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001
+		],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001
+		],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001
+		],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001
+		],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001
+		],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001
+		],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001
+		],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001
+		],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001
+		],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001
+		],[0,3.75000000e+002,6.00000000e+001],[0,3.75000000e+002,6.00000000e+001]]]]>
+</Data>
+<Data Format="Decorated">
+<Array DataType="HMI_output_waypoints" Dimensions="50">
+<Element Index="[0]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="1"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="271.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="320.0"/>
+</Structure>
+</Element>
+<Element Index="[1]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="1"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="272.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="323.0"/>
+</Structure>
+</Element>
+<Element Index="[2]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="1"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="275.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="324.0"/>
+</Structure>
+</Element>
+<Element Index="[3]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="1"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="278.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="323.0"/>
+</Structure>
+</Element>
+<Element Index="[4]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="1"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="279.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="320.0"/>
+</Structure>
+</Element>
+<Element Index="[5]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="1"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="278.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="317.0"/>
+</Structure>
+</Element>
+<Element Index="[6]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="1"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="275.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="316.0"/>
+</Structure>
+</Element>
+<Element Index="[7]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="1"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="272.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="317.0"/>
+</Structure>
+</Element>
+<Element Index="[8]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="1"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="272.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="317.0"/>
+</Structure>
+</Element>
+<Element Index="[9]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[10]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[11]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[12]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[13]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[14]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[15]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[16]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[17]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[18]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[19]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[20]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[21]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[22]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[23]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[24]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[25]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[26]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[27]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[28]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[29]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[30]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[31]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[32]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[33]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[34]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[35]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[36]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[37]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[38]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[39]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[40]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[41]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[42]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[43]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[44]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[45]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[46]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[47]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[48]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+<Element Index="[49]">
+<Structure DataType="HMI_output_waypoints">
+<DataValueMember Name="Visual" DataType="BOOL" Value="0"/>
+<DataValueMember Name="X" DataType="REAL" Radix="Float" Value="375.0"/>
+<DataValueMember Name="Y" DataType="REAL" Radix="Float" Value="60.0"/>
+</Structure>
+</Element>
+</Array>
+</Data>
+</Tag>
+<Tag Name="HMI_TD_Logged_in" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Event trigger from HMI]]>
+</Description>
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="HMI_X_position" TagType="Base" DataType="REAL" Radix="Float" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[3.98068787e+002]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="398.0688"/>
+</Data>
+</Tag>
+<Tag Name="HMI_Y_position" TagType="Base" DataType="REAL" Radix="Float" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[3.76232208e+002]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="376.2322"/>
+</Data>
+</Tag>
+<Tag Name="I" TagType="Base" DataType="DINT" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[0]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</Data>
+</Tag>
+<Tag Name="Menu_slide" TagType="Base" DataType="CountUpAndDown" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[[15,50,0,10,4000,[0,50,0],[[1345820,4000,0],[0,0,0]]]]]>
+</Data>
+<Data Format="Decorated">
+<Structure DataType="CountUpAndDown">
+<DataValueMember Name="EnableIn" DataType="BOOL" Value="1"/>
+<DataValueMember Name="EnableOut" DataType="BOOL" Value="1"/>
+<DataValueMember Name="CountingSpeed" DataType="DINT" Radix="Decimal" Value="50"/>
+<DataValueMember Name="Count" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="MaxCount" DataType="DINT" Radix="Decimal" Value="10"/>
+<DataValueMember Name="Holding_Time" DataType="DINT" Radix="Decimal" Value="4000"/>
+<DataValueMember Name="Done" DataType="BOOL" Value="1"/>
+</Structure>
+</Data>
+</Tag>
+<Tag Name="TRUE" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[1]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
+</Data>
+</Tag>
+<Tag Name="X_output_coordinate" TagType="Base" DataType="REAL" Radix="Float" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[3.74987091e+002]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="374.9871"/>
+</Data>
+</Tag>
+<Tag Name="Y_output_coordinate" TagType="Base" DataType="REAL" Radix="Float" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[6.00292015e+001]]>
+</Data>
+<Data Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="60.0292"/>
+</Data>
+</Tag>
+</Tags>
+<Routines>
+<Routine Name="MainRoutine" Type="RLL">
+<RLLContent>
+<Rung Number="0" Type="N">
+<Comment>
+<![CDATA[HMI visuals]]>
+</Comment>
+<Text>
+<![CDATA[NOP();]]>
+</Text>
+</Rung>
+<Rung Number="1" Type="N">
+<Comment>
+<![CDATA[
+Menu slider
+
+]]>
+</Comment>
+<Text>
+<![CDATA[[CountUpAndDown(Menu_slide) ,XIC(HMI_Menu_Slide) OTU(Menu_slide.Done) OTU(HMI_Menu_Slide) ];]]>
+</Text>
+</Rung>
+<Rung Number="2" Type="N">
+<Comment>
+<![CDATA[call security]]>
+</Comment>
+<Text>
+<![CDATA[JSR(SecurityCode,0);]]>
+</Text>
+</Rung>
+<Rung Number="3" Type="N">
+<Comment>
+<![CDATA[calculation of hmi sliders to a position
+]]>
+</Comment>
+<Text>
+<![CDATA[JSR(slider_calculation,0);]]>
+</Text>
+</Rung>
+<Rung Number="4" Type="N">
+<Comment>
+<![CDATA[calculation of hmi sliders to a position
+]]>
+</Comment>
+<Text>
+<![CDATA[JSR(HMI_Depositer,0);]]>
+</Text>
+</Rung>
+</RLLContent>
+</Routine>
+<Routine Name="SecurityCode" Type="RLL">
+<RLLContent>
+<Rung Number="0" Type="N">
+<Comment>
+<![CDATA[Set all modes off once new PLC program is loaded]]>
+</Comment>
+<Text>
+<![CDATA[XIC(s:fs)OTU(HMI_Admin_Logged_in)OTU(HMI_TD_Logged_in)OTU(HMI_Customer_Logged_in)OTL(HMI_Logoff);]]>
+</Text>
+</Rung>
+<Rung Number="1" Type="N">
+<Text>
+<![CDATA[XIC(HMI_Admin_Logged_in)NOP();]]>
+</Text>
+</Rung>
+<Rung Number="2" Type="N">
+<Text>
+<![CDATA[XIC(HMI_TD_Logged_in)NOP();]]>
+</Text>
+</Rung>
+<Rung Number="3" Type="N">
+<Text>
+<![CDATA[XIC(HMI_Customer_Logged_in)NOP();]]>
+</Text>
+</Rung>
+<Rung Number="4" Type="N">
+<Text>
+<![CDATA[XIC(HMI_Logoff)[OTU(HMI_Logoff) ,XIC(HMI_Admin_Logged_in) OTU(HMI_Admin_Logged_in) ,XIC(HMI_TD_Logged_in) OTU(HMI_TD_Logged_in) ,XIC(HMI_Customer_Logged_in) OTU(HMI_Customer_Logged_in) ];]]>
+</Text>
+</Rung>
+</RLLContent>
+</Routine>
+</Routines>
+</Program>
+</Programs>
+</Controller>
+</RSLogix5000Content>
