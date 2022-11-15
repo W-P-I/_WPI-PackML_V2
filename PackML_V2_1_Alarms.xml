@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AlarmCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Alarm Name="OP_PumpControl_Faulted" ConditionType="TRIP" Input="\Unit1_MachineNaam_EM01_Omschrijving.PumpControl_Fault" Expression="= 1" Limit="0" TargetTag="" OnDelay="0" OffDelay="0" Deadband="0" Severity="200" AssocTag1="\Unit1_MachineNaam_EM01_Omschrijving.wrk_ProgramName" AssocTag2="\Unit1_MachineNaam_EM01_Omschrijving.wrk_RoutineName" AssocTag3="" AssocTag4="" ShelveDuration="0" MaxShelveDuration="0" EvaluationPeriod="500" Latched="False" AckRequired="True" AlarmSetRollupIncluded="True" AlarmSetOperIncluded="True" Lang="" Use="True" AlarmDefinition="">
+    <Message><![CDATA[| /*S:0 %Tag1*/ | /*S:0 %Tag2*/ | Faulted! | ]]></Message>
+    <AlarmClass><![CDATA[]]></AlarmClass>
+    <HMIGroup><![CDATA[]]></HMIGroup>
+    <HMICmd><![CDATA[]]></HMICmd>
+  </Alarm>
+  <Alarm Name="Autofill_fault" ConditionType="TRIP" Input="\Unit1_MachineNaam_EM01_Omschrijving.Autofill_fault" Expression="= 1" Limit="0" TargetTag="" OnDelay="0" OffDelay="0" Deadband="0" Severity="500" AssocTag1="\Unit1_MachineNaam_EM01_Omschrijving.wrk_ProgramName" AssocTag2="\Unit1_MachineNaam_EM01_Omschrijving.wrk_RoutineName" AssocTag3="" AssocTag4="" ShelveDuration="0" MaxShelveDuration="0" EvaluationPeriod="500" Latched="False" AckRequired="True" AlarmSetRollupIncluded="True" AlarmSetOperIncluded="True" Lang="" Use="True" AlarmDefinition="">
+    <Message><![CDATA[| /*S:0 %Tag1*/ | /*S:0 %Tag2*/ | Faulted! | ]]></Message>
+    <AlarmClass><![CDATA[]]></AlarmClass>
+    <HMIGroup><![CDATA[]]></HMIGroup>
+    <HMICmd><![CDATA[]]></HMICmd>
+  </Alarm>
+  <Alarm Name="_Alarm_1" ConditionType="TRIP" Input="\Unit1_MachineNaam_Obj_Model.Alarm_Trigger[1]" Expression="= 1" Limit="0" TargetTag="" OnDelay="0" OffDelay="0" Deadband="0" Severity="500" AssocTag1="\Unit1_MachineNaam_Obj_Model.Unit.Admin.Alarm[11].Message" AssocTag2="" AssocTag3="" AssocTag4="" ShelveDuration="0" MaxShelveDuration="0" EvaluationPeriod="500" Latched="False" AckRequired="True" AlarmSetRollupIncluded="True" AlarmSetOperIncluded="True" Lang="" Use="True" AlarmDefinition="">
+    <Message><![CDATA[/*S:0 %Tag1*/]]></Message>
+    <AlarmClass><![CDATA[]]></AlarmClass>
+    <HMIGroup><![CDATA[]]></HMIGroup>
+    <HMICmd><![CDATA[]]></HMICmd>
+  </Alarm>
+  <Alarm Name="_Alarm_002" ConditionType="TRIP" Input="\Unit1_MachineNaam_Obj_Model.Alarm_Trigger[1]" Expression="= 1" Limit="0" TargetTag="" OnDelay="0" OffDelay="0" Deadband="0" Severity="500" AssocTag1="\Unit1_MachineNaam_Obj_Model.Unit.Admin.Alarm[11].Message" AssocTag2="" AssocTag3="" AssocTag4="" ShelveDuration="0" MaxShelveDuration="0" EvaluationPeriod="500" Latched="False" AckRequired="True" AlarmSetRollupIncluded="True" AlarmSetOperIncluded="True" Lang="" Use="True" AlarmDefinition="">
+    <Message><![CDATA[/*S:0 %Tag1*/]]></Message>
+    <AlarmClass><![CDATA[]]></AlarmClass>
+    <HMIGroup><![CDATA[]]></HMIGroup>
+    <HMICmd><![CDATA[]]></HMICmd>
+  </Alarm>
+  <Alarm Name="_Alarm_2" ConditionType="TRIP" Input="\Unit1_MachineNaam_Obj_Model.Alarm_Trigger[2]" Expression="= 1" Limit="0" TargetTag="" OnDelay="0" OffDelay="0" Deadband="0" Severity="500" AssocTag1="\Unit1_MachineNaam_Obj_Model.Unit.Admin.Alarm[12].Message" AssocTag2="" AssocTag3="" AssocTag4="" ShelveDuration="0" MaxShelveDuration="0" EvaluationPeriod="500" Latched="False" AckRequired="True" AlarmSetRollupIncluded="True" AlarmSetOperIncluded="True" Lang="" Use="True" AlarmDefinition="">
+    <Message><![CDATA[/*S:0 %Tag1*/]]></Message>
+    <AlarmClass><![CDATA[]]></AlarmClass>
+    <HMIGroup><![CDATA[]]></HMIGroup>
+    <HMICmd><![CDATA[]]></HMICmd>
+  </Alarm>
+  <Alarm Name="_Alarm_3" ConditionType="TRIP" Input="\Unit1_MachineNaam_Obj_Model.Alarm_Trigger[3]" Expression="= 1" Limit="0" TargetTag="" OnDelay="0" OffDelay="0" Deadband="0" Severity="500" AssocTag1="\Unit1_MachineNaam_Obj_Model.Unit.Admin.Alarm[13].Message" AssocTag2="" AssocTag3="" AssocTag4="" ShelveDuration="0" MaxShelveDuration="0" EvaluationPeriod="500" Latched="False" AckRequired="True" AlarmSetRollupIncluded="True" AlarmSetOperIncluded="True" Lang="" Use="True" AlarmDefinition="">
+    <Message><![CDATA[/*S:0 %Tag1*/]]></Message>
+    <AlarmClass><![CDATA[]]></AlarmClass>
+    <HMIGroup><![CDATA[]]></HMIGroup>
+    <HMICmd><![CDATA[]]></HMICmd>
+  </Alarm>
+  <Alarm Name="_Alarm_4" ConditionType="TRIP" Input="\Unit1_MachineNaam_Obj_Model.Alarm_Trigger[4]" Expression="= 1" Limit="0" TargetTag="" OnDelay="0" OffDelay="0" Deadband="0" Severity="500" AssocTag1="\Unit1_MachineNaam_Obj_Model.Unit.Admin.Alarm[14].Message" AssocTag2="" AssocTag3="" AssocTag4="" ShelveDuration="0" MaxShelveDuration="0" EvaluationPeriod="500" Latched="False" AckRequired="True" AlarmSetRollupIncluded="True" AlarmSetOperIncluded="True" Lang="" Use="True" AlarmDefinition="">
+    <Message><![CDATA[/*S:0 %Tag1*/]]></Message>
+    <AlarmClass><![CDATA[]]></AlarmClass>
+    <HMIGroup><![CDATA[]]></HMIGroup>
+    <HMICmd><![CDATA[]]></HMICmd>
+  </Alarm>
+</AlarmCollection>
