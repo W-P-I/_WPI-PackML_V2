@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AlarmCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<Alarm Name="_Alarm_XXX" ConditionType="TRIP" Input="\UnitNaamPlaceholderC#.Alarm_Trigger[X]" Expression="= 1" Limit="0" TargetTag="" OnDelay="0" OffDelay="0" Deadband="0" Severity="500" AssocTag1="\UnitNaamPlaceholderC#.Unit.Admin.Alarm[XX].Message" AssocTag2="" AssocTag3="" AssocTag4="" ShelveDuration="0" MaxShelveDuration="0" EvaluationPeriod="500" Latched="False" AckRequired="True" AlarmSetRollupIncluded="True" AlarmSetOperIncluded="True" Lang="" Use="True" AlarmDefinition="">
+  <Message><![CDATA[/*S:0 %Tag1*/]]></Message>
+  <AlarmClass><![CDATA[]]></AlarmClass>
+  <HMIGroup><![CDATA[]]></HMIGroup>
+  <HMICmd><![CDATA[]]></HMICmd>
+</Alarm>
