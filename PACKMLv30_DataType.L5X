@@ -1,0 +1,381 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="33.00" TargetName="PACKMLv30" TargetType="DataType" ContainsContext="true" ExportDate="Wed Nov 16 16:03:10 2022" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Context" Name="PackML_V2_1">
+<DataTypes Use="Context">
+<DataType Name="Alarm_UDT" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ID" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Value" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Message" DataType="STRING" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="TimeEvent" DataType="TimeStamp" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="TimeAck" DataType="TimeStamp" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="TimeStamp"/>
+<Dependency Type="DataType" Name="TimeStamp"/>
+</Dependencies>
+</DataType>
+<DataType Name="CntDescrip" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ID" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Name" DataType="STRING_16" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Unit" DataType="STRING_08" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Count" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="AccCount" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="STRING_08"/>
+</Dependencies>
+</DataType>
+<DataType Name="Descriptor" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ID" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[ID value of Parameter]]>
+</Description>
+</Member>
+<Member Name="Name" DataType="STRING_16" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Parameter name]]>
+</Description>
+</Member>
+<Member Name="Unit" DataType="STRING_08" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Unit of measure of the parameter]]>
+</Description>
+</Member>
+<Member Name="Value" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Parameter Values]]>
+</Description>
+</Member>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="STRING_08"/>
+</Dependencies>
+</DataType>
+<DataType Name="Ingredients" Family="NoFamily" Class="User">
+<Members>
+<Member Name="IngredientID" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Parameter" DataType="Descriptor" Dimension="20" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="Descriptor"/>
+</Dependencies>
+</DataType>
+<DataType Name="Interface" Family="NoFamily" Class="User">
+<Members>
+<Member Name="Number" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ControlCmdNumber" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="CmdValue" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="RemoteInterface" DataType="Descriptor" Dimension="20" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="Descriptor"/>
+</Dependencies>
+</DataType>
+<DataType Use="Target" Name="PACKMLv30" Family="NoFamily" Class="User">
+<Members>
+<Member Name="Command" DataType="PMLc" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Status" DataType="PLMs" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Admin" DataType="PMLa" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="PMLc"/>
+<Dependency Type="DataType" Name="PLMs"/>
+<Dependency Type="DataType" Name="PMLa"/>
+</Dependencies>
+</DataType>
+<DataType Name="PLMs" Family="NoFamily" Class="User">
+<Description>
+<![CDATA[Status tags are used to describe the operation of the unit machine. Status tags include state
+commands which describe the state transitions in the Base State Model. The status tags also
+include parameters and process variables which describe how the machine operates.]]>
+</Description>
+<Members>
+<Member Name="UnitModeCurrent" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Unit Mode in Current Use]]>
+</Description>
+</Member>
+<Member Name="ZZZZZZZZZZPLMs1" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="UnitModeRequested" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZPLMs1" BitNumber="0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Requested Unit Mode Change]]>
+</Description>
+</Member>
+<Member Name="UnitModeChangeInProcess" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZPLMs1" BitNumber="1" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Requested Unit Mode Change in Process]]>
+</Description>
+</Member>
+<Member Name="StateCurrent" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Current State Number]]>
+</Description>
+</Member>
+<Member Name="StateRequested" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Target State.]]>
+</Description>
+</Member>
+<Member Name="ZZZZZZZZZZPLMs6" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="StateChangeInProcess" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZPLMs6" BitNumber="0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[State Change in Process.]]>
+</Description>
+</Member>
+<Member Name="MachSpeed" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Current Machine Speed]]>
+</Description>
+</Member>
+<Member Name="CurMachSpeed" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Current Machine Speed in Primary Packages/Minute]]>
+</Description>
+</Member>
+<Member Name="ZZZZZZZZZZPLMs10" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="MaterialInterlock" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZPLMs10" BitNumber="0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Materials Ready]]>
+</Description>
+</Member>
+<Member Name="RemoteInterface" DataType="Interface" Dimension="10" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[!!Currently not in use!!
+
+Upstream or Downstream Machine]]>
+</Description>
+</Member>
+<Member Name="Parameter" DataType="Descriptor" Dimension="10" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Array of Data Type Descriptor]]>
+</Description>
+</Member>
+<Member Name="Product" DataType="Product" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[The Product data type can be used for defining product and product processing parameter
+variables]]>
+</Description>
+</Member>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="Interface"/>
+<Dependency Type="DataType" Name="Descriptor"/>
+<Dependency Type="DataType" Name="Product"/>
+</Dependencies>
+</DataType>
+<DataType Name="PMLa" Family="NoFamily" Class="User">
+<Description>
+<![CDATA[Administration tags]]>
+</Description>
+<Members>
+<Member Name="Parameter" DataType="Descriptor" Dimension="10" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Array of Data Type Descriptor]]>
+</Description>
+</Member>
+<Member Name="Alarm" DataType="Alarm_UDT" Dimension="320" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Array of Given Size for Machine Fault Number and Messaging]]>
+</Description>
+</Member>
+<Member Name="AlarmExtent" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Extent of Alarm Array]]>
+</Description>
+</Member>
+<Member Name="ModeCurrentTime" DataType="DINT" Dimension="7" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Array of Timer Values]]>
+</Description>
+</Member>
+<Member Name="ModeCumulativeTime" DataType="DINT" Dimension="7" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Array of Timer Values]]>
+</Description>
+</Member>
+<Member Name="StateCurrentTime" DataType="StateCurrentTime_array" Dimension="7" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Array of Timer Values]]>
+</Description>
+</Member>
+<Member Name="StateCumulativeTime" DataType="StateCurrentTime_array" Dimension="7" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Array of Timer Values]]>
+</Description>
+</Member>
+<Member Name="ProdConsumedCount" DataType="CntDescrip" Dimension="10" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Array of Data Type ProdCount]]>
+</Description>
+</Member>
+<Member Name="ProdProcessedCount" DataType="CntDescrip" Dimension="10" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Array of Data Type ProdCount]]>
+</Description>
+</Member>
+<Member Name="ProdDefectiveCount" DataType="CntDescrip" Dimension="10" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Array of Data Type ProdCount]]>
+</Description>
+</Member>
+<Member Name="AccTimeSinceReset" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Accumulative Time Since Last Reset]]>
+</Description>
+</Member>
+<Member Name="MachDesignSpeed" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Machine Design Speed]]>
+</Description>
+</Member>
+<Member Name="AlarmHistory" DataType="Alarm_UDT" Dimension="100" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Array of Given Size for Machine Fault Number and Messaging History]]>
+</Description>
+</Member>
+<Member Name="AlarmHistoryExtent" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Extent of Alarm History Array]]>
+</Description>
+</Member>
+<Member Name="PACDateTime" DataType="TimeStamp" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[This tag defines the structure of date and time of the Programmable Automation Controller 
+(PAC).]]>
+</Description>
+</Member>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="Descriptor"/>
+<Dependency Type="DataType" Name="Alarm_UDT"/>
+<Dependency Type="DataType" Name="StateCurrentTime_array"/>
+<Dependency Type="DataType" Name="StateCurrentTime_array"/>
+<Dependency Type="DataType" Name="CntDescrip"/>
+<Dependency Type="DataType" Name="CntDescrip"/>
+<Dependency Type="DataType" Name="CntDescrip"/>
+<Dependency Type="DataType" Name="Alarm_UDT"/>
+<Dependency Type="DataType" Name="TimeStamp"/>
+</Dependencies>
+</DataType>
+<DataType Name="PMLc" Family="NoFamily" Class="User">
+<Description>
+<![CDATA[Command tags are used to control the operation of the unit machine. Command tags include
+unit state commands which control the state transitions in the Base State Model.]]>
+</Description>
+<Members>
+<Member Name="UnitMode" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[This value is predefined by the user/OEM, and are the desired unit modes of the machine.]]>
+</Description>
+</Member>
+<Member Name="ZZZZZZZZZZPMLc1" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="UnitModeChangeRequest" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZPMLc1" BitNumber="0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[When a unit mode request takes place a numerical value must be present in the
+Command.UnitMode tag to change the unit mode.]]>
+</Description>
+</Member>
+<Member Name="MachSpeed" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ZZZZZZZZZZPMLc4" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="MaterialsInterlocks" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZPMLc4" BitNumber="0" ExternalAccess="Read/Write"/>
+<Member Name="CntrlCmd" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[0 Undefined
+1 Reset
+2 Start
+3 Stop
+4 Hold
+5 Unhold
+6 Suspend
+7 Unsuspend
+8 Abort
+9 Clear]]>
+</Description>
+</Member>
+<Member Name="ZZZZZZZZZZPMLc7" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="CmdChangeRequest" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZPMLc7" BitNumber="0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[This CmdChangeRequest bit will command the machine to proceed to change the state to the
+target state. The tag can be used to condition when a change of state can occur. The target
+state will be one of the states in the base state model.]]>
+</Description>
+</Member>
+<Member Name="RemoteInterface" DataType="Interface" Dimension="10" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[!!Currently not in use!!
+
+Upstream or Downstream Machine]]>
+</Description>
+</Member>
+<Member Name="Parameter" DataType="Descriptor" Dimension="10" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Array of Data Type Descriptor]]>
+</Description>
+</Member>
+<Member Name="Product" DataType="Product" Dimension="5" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[The Product data type can be used for defining product and product processing parameter
+variables]]>
+</Description>
+</Member>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="Interface"/>
+<Dependency Type="DataType" Name="Descriptor"/>
+<Dependency Type="DataType" Name="Product"/>
+</Dependencies>
+</DataType>
+<DataType Name="Product" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ProductID" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Product ID]]>
+</Description>
+</Member>
+<Member Name="ProcessVariables" DataType="Descriptor" Dimension="30" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Process variables include set
+points, limits, quality parameters, etc]]>
+</Description>
+</Member>
+<Member Name="Ingredients" DataType="Ingredients" Dimension="1" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[hold the information needed for the raw materials that are used by the
+unit machine in the processing of a particular product]]>
+</Description>
+</Member>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="Descriptor"/>
+<Dependency Type="DataType" Name="Ingredients"/>
+</Dependencies>
+</DataType>
+<DataType Name="StateCurrentTime_array" Family="NoFamily" Class="User">
+<Description>
+<![CDATA[sub array]]>
+</Description>
+<Members>
+<Member Name="Mode" DataType="DINT" Dimension="18" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="STRING_08" Family="StringFamily" Class="User">
+<Description>
+<![CDATA[only 8 chars]]>
+</Description>
+<Members>
+<Member Name="LEN" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="DATA" DataType="SINT" Dimension="8" Radix="ASCII" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="TimeStamp" Family="NoFamily" Class="User">
+<Members>
+<Member Name="Date" DataType="LINT" Dimension="0" Radix="Date/Time" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Time" DataType="LINT" Dimension="0" Radix="Date/Time" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+</DataTypes>
+</Controller>
+</RSLogix5000Content>
