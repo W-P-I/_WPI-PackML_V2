@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!--based on packml_V2_R1-->
-<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="33.00" TargetName="PF525_V3" TargetType="AddOnInstructionDefinition" TargetRevision="1.0 " TargetLastEdited="2022-11-17T14:44:05.519Z" ContainsContext="true" ExportDate="Thu Nov 17 15:47:14 2022" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
-<Controller Use="Context" Name="Samlip">
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="33.00" TargetName="PF525_V3" TargetType="AddOnInstructionDefinition" TargetClass="Standard" TargetRevision="1.0 " TargetLastEdited="2022-11-17T14:44:05.519Z" ContainsContext="true" ExportDate="Thu Nov 17 22:40:55 2022" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Context" Name="TestSamlip">
 <DataTypes Use="Context">
 <DataType Name="Alarm_UDT" Family="NoFamily" Class="User">
 <Members>
@@ -600,7 +600,8 @@ unit machine in the processing of a particular product]]>
 </DataType>
 </DataTypes>
 <AddOnInstructionDefinitions Use="Context">
-<AddOnInstructionDefinition Name="ISA_TR_88_00_02" Revision="1.0" ExecutePrescan="true" ExecutePostscan="false" ExecuteEnableInFalse="false" CreatedDate="2022-11-02T19:37:01.824Z" CreatedBy="WPI\tom.reit" EditedDate="2022-11-15T06:55:16.603Z" EditedBy="WPI\tom.reit" SoftwareRevision="v33.00">
+<AddOnInstructionDefinition Name="ISA_TR_88_00_02" Class="Standard" Revision="1.0" ExecutePrescan="true" ExecutePostscan="false" ExecuteEnableInFalse="false" CreatedDate="2022-11-02T19:37:01.824Z" CreatedBy="WPI\tom.reit" EditedDate="2022-11-15T06:55:16.603Z" EditedBy="WPI\tom.reit" SoftwareRevision="v33.00"
+>
 <Description>
 <![CDATA[Machine and Unit States:
 An Implementation Example of
@@ -4742,8 +4743,8 @@ ISA-88]]>
 <Dependency Type="DataType" Name="PACKMLv30"/>
 </Dependencies>
 </AddOnInstructionDefinition>
-<AddOnInstructionDefinition Use="Target" Name="PF525_V3" Revision="1.0" ExecutePrescan="false" ExecutePostscan="false" ExecuteEnableInFalse="false" CreatedDate="2022-11-17T12:42:57.924Z" CreatedBy="WPI\tom.reit" EditedDate="2022-11-17T14:44:05.519Z" EditedBy="WPI\tom.reit" SoftwareRevision="v33.00"
->
+<AddOnInstructionDefinition Use="Target" Name="PF525_V3" Class="Standard" Revision="1.0" ExecutePrescan="false" ExecutePostscan="false" ExecuteEnableInFalse="false" CreatedDate="2022-11-17T12:42:57.924Z" CreatedBy="WPI\tom.reit" EditedDate="2022-11-17T14:44:05.519Z" EditedBy="WPI\tom.reit"
+ SoftwareRevision="v33.00">
 <Description>
 <![CDATA[based on packml_V2_R1]]>
 </Description>
