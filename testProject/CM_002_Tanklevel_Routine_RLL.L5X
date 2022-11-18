@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="33.00" TargetName="CM_002_Tanklevel" TargetType="Routine" TargetSubType="RLL" TargetClass="Standard" ContainsContext="true" ExportDate="Thu Nov 17 09:11:00 2022" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="33.00" TargetName="CM_002_Tanklevel" TargetType="Routine" TargetSubType="RLL" TargetClass="Standard" ContainsContext="true" ExportDate="Thu Nov 17 19:46:46 2022" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
 <Controller Use="Context" Name="TestSamlip">
 <DataTypes Use="Context">
 <DataType Name="Descriptor" Family="NoFamily" Class="User">
@@ -1125,7 +1125,30 @@ SIMULATIE_ENABLE, if this is set to (TRUE/1) the scaling will be ignored and the
 <Programs Use="Context">
 <Program Use="Context" Name="Unit1_Aerator_EM01_Buffertank" Class="Standard">
 <Tags Use="Context">
-<Tag Name="dscript_parameter_Tanklevel" TagType="Base" DataType="Descriptor" Dimensions="6" Usage="Public" Constant="false" ExternalAccess="Read/Write">
+<Tag Name="dscript_parameter_Tanklevel" TagType="Base" DataType="Descriptor" Dimensions="6" Constant="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[TankLevel]]>
+</Description>
+<Comments>
+<Comment Operand="[0]">
+<![CDATA[Alarm value high]]>
+</Comment>
+<Comment Operand="[1]">
+<![CDATA[Alarm value low]]>
+</Comment>
+<Comment Operand="[2]">
+<![CDATA[InRawMax]]>
+</Comment>
+<Comment Operand="[3]">
+<![CDATA[InRawMin]]>
+</Comment>
+<Comment Operand="[4]">
+<![CDATA[ScaledMax]]>
+</Comment>
+<Comment Operand="[5]">
+<![CDATA[ScaledMin]]>
+</Comment>
+</Comments>
 <Data Format="L5K">
 <![CDATA[[[0,[16,'Alarm value high'],[8,'UserUnit'],1.10000000e+002],[0,[15,'Alarm value low$00'],[8,'UserUnit'
 		],-1.00000000e+000],[0,[0,'$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00'],[0,'$00$00$00$00$00$00$00$00'
@@ -1247,6 +1270,29 @@ SIMULATIE_ENABLE, if this is set to (TRUE/1) the scaling will be ignored and the
 </Array>
 </Data>
 </Tag>
+<Tag Name="dscript_Tanklevel" TagType="Base" DataType="Descriptor" Usage="Public" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[[0,[9,'Tanklevel$00$00$00$00$00$00$00'],[1,'%$00$00$00$00$00$00$00'],2.80000000e+001]]]>
+</Data>
+<Data Format="Decorated">
+<Structure DataType="Descriptor">
+<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
+<StructureMember Name="Name" DataType="STRING_16">
+<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="9"/>
+<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+<![CDATA['Tanklevel']]>
+</DataValueMember>
+</StructureMember>
+<StructureMember Name="Unit" DataType="STRING_08">
+<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="1"/>
+<DataValueMember Name="DATA" DataType="STRING_08" Radix="ASCII">
+<![CDATA['%']]>
+</DataValueMember>
+</StructureMember>
+<DataValueMember Name="Value" DataType="REAL" Radix="Float" Value="28.0"/>
+</Structure>
+</Data>
+</Tag>
 <Tag Name="IO_Tanklevel" TagType="Base" DataType="REAL" Radix="Float" Constant="false" ExternalAccess="Read/Write">
 <Data Format="L5K">
 <![CDATA[0.00000000e+000]]>
@@ -1258,7 +1304,7 @@ SIMULATIE_ENABLE, if this is set to (TRUE/1) the scaling will be ignored and the
 <Tag Name="Tanklevel" TagType="Base" DataType="HMI_IA_Sensor" Constant="false" ExternalAccess="Read/Write">
 <Data Format="L5K">
 <![CDATA[[1,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000
-		,0.00000000e+000,0.00000000e+000,0,0,0.00000000e+000,[1,0.00000000e+000,0.00000000e+000,0.00000000e+000
+		,0.00000000e+000,2.80000000e+001,0,0,0.00000000e+000,[1,0.00000000e+000,0.00000000e+000,0.00000000e+000
 		,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,[1,0.00000000e+000,0.00000000e+000
 		,0.00000000e+000,0.00000000e+000,0.00000000e+000,1,0.00000000e+000,0,5.60519386e-045,0.00000000e+000
 		,0.00000000e+000,0.00000000e+000],[1,0.00000000e+000,0.00000000e+000,0,0.00000000e+000,5.60519386e-045
@@ -1304,7 +1350,7 @@ SIMULATIE_ENABLE, if this is set to (TRUE/1) the scaling will be ignored and the
 <DataValueMember Name="Scaled_Max" DataType="REAL" Radix="Float" Value="0.0"/>
 <DataValueMember Name="Scaled_Min" DataType="REAL" Radix="Float" Value="0.0"/>
 <DataValueMember Name="RawSensorValue" DataType="REAL" Radix="Float" Value="0.0"/>
-<DataValueMember Name="OutputValue" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="OutputValue" DataType="REAL" Radix="Float" Value="28.0"/>
 <DataValueMember Name="cnf_Set_100" DataType="BOOL" Value="0"/>
 <DataValueMember Name="cnf_Set_0" DataType="BOOL" Value="0"/>
 <DataValueMember Name="reset" DataType="BOOL" Value="0"/>
@@ -1323,6 +1369,24 @@ SIMULATIE_ENABLE, if this is set to (TRUE/1) the scaling will be ignored and the
 <Rung Number="0" Type="N">
 <Text>
 <![CDATA[HMI_IA_Sensor(Tanklevel,dscript_parameter_Tanklevel[0].Value,dscript_parameter_Tanklevel[1].Value,dscript_parameter_Tanklevel[2].Value,dscript_parameter_Tanklevel[3].Value,dscript_parameter_Tanklevel[4].Value,dscript_parameter_Tanklevel[5].Value,IO_Tanklevel,Tanklevel.reset);]]>
+</Text>
+</Rung>
+<Rung Number="1" Type="N">
+<Comment>
+<![CDATA[ 
+ 
+Descriptor tags 
+ 
+ 
+]]>
+</Comment>
+<Text>
+<![CDATA[NOP();]]>
+</Text>
+</Rung>
+<Rung Number="2" Type="N">
+<Text>
+<![CDATA[MOV(dscript_Tanklevel.ID,dscript_Tanklevel.ID)MOV(dscript_Tanklevel.Name,dscript_Tanklevel.Name)MOV(Tanklevel.OutputValue,dscript_Tanklevel.Value)MOV(dscript_Tanklevel.Unit,dscript_Tanklevel.Unit);]]>
 </Text>
 </Rung>
 </RLLContent>
