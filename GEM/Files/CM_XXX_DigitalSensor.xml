@@ -1,0 +1,632 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="33.00" TargetName="CM_000_DigIn" TargetType="Routine" TargetSubType="RLL" TargetClass="Standard" ContainsContext="true" ExportDate="Mon Nov 28 14:57:04 2022" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+	<Controller Use="Context" Name="TestSamlip">
+		<DataTypes Use="Context">
+			<DataType Name="Descriptor" Family="NoFamily" Class="User">
+				<Members>
+					<Member Name="ID" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[ID value of Parameter]]>
+						</Description>
+					</Member>
+					<Member Name="Name" DataType="STRING_16" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Parameter name]]>
+						</Description>
+					</Member>
+					<Member Name="Unit" DataType="STRING_08" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Unit of measure of the parameter]]>
+						</Description>
+					</Member>
+					<Member Name="Value" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Parameter Values]]>
+						</Description>
+					</Member>
+				</Members>
+				<Dependencies>
+					<Dependency Type="DataType" Name="STRING_08"/>
+				</Dependencies>
+			</DataType>
+			<DataType Name="STRING_08" Family="StringFamily" Class="User">
+				<Description>
+					<![CDATA[only 8 chars]]>
+				</Description>
+				<Members>
+					<Member Name="LEN" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+					<Member Name="DATA" DataType="SINT" Dimension="8" Radix="ASCII" Hidden="false" ExternalAccess="Read/Write"/>
+				</Members>
+			</DataType>
+		</DataTypes>
+		<AddOnInstructionDefinitions Use="Context">
+			<AddOnInstructionDefinition Name="HMI_DIG_Sensor_advanced" Class="Standard" Revision="1.0" ExecutePrescan="false" ExecutePostscan="false" ExecuteEnableInFalse="false" CreatedDate="2022-11-28T10:22:17.192Z" CreatedBy="WPI\tom.reit" EditedDate="2022-11-28T13:09:15.019Z" EditedBy="WPI\tom.reit" SoftwareRevision="v33.00"
+>
+				<Parameters>
+					<Parameter Name="EnableIn" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+						<Description>
+							<![CDATA[Enable Input - System Defined Parameter]]>
+						</Description>
+					</Parameter>
+					<Parameter Name="EnableOut" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+						<Description>
+							<![CDATA[Enable Output - System Defined Parameter]]>
+						</Description>
+					</Parameter>
+					<Parameter Name="Input" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[input from sensor]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[1]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="reset" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Reset the sensor once in alarm]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="Alarm" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+						<Description>
+							<![CDATA[Sensor has alarm]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="cnf_Detect_High_or_Low" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[0 = detect on low signal
+
+1 = detect on high signal]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[1]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="Sts_Detected" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+						<Description>
+							<![CDATA[Sensor detect something]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="cnf_Simulation" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[bypasses sensor input and only looks at simulation value]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="cnf_Simulation_Value" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Simulated value]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="cnf_UseAlarm" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Sensor can generate an alarm]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="cnf_Minimal_Detect_time" TagType="Base" DataType="DINT" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[in ms]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="cnf_Maximal_Detect_time" TagType="Base" DataType="DINT" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[in ms]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="cnf_holding_Signal_time" TagType="Base" DataType="DINT" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[in ms]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+				</Parameters>
+				<LocalTags>
+					<LocalTag Name="T_minimal_detect" DataType="TIMER" Dimensions="2" ExternalAccess="None">
+						<DefaultData Format="L5K">
+							<![CDATA[[[0,0,0],[0,0,0]]]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<Array DataType="TIMER" Dimensions="2">
+								<Element Index="[0]">
+									<Structure DataType="TIMER">
+										<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="0"/>
+										<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
+										<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+										<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+										<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+									</Structure>
+								</Element>
+								<Element Index="[1]">
+									<Structure DataType="TIMER">
+										<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="0"/>
+										<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
+										<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+										<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+										<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+									</Structure>
+								</Element>
+							</Array>
+						</DefaultData>
+					</LocalTag>
+					<LocalTag Name="T_maximal_detect" DataType="TIMER" Dimensions="2" ExternalAccess="None">
+						<DefaultData Format="L5K">
+							<![CDATA[[[536870912,0,0],[0,0,0]]]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<Array DataType="TIMER" Dimensions="2">
+								<Element Index="[0]">
+									<Structure DataType="TIMER">
+										<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="0"/>
+										<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
+										<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+										<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+										<DataValueMember Name="DN" DataType="BOOL" Value="1"/>
+									</Structure>
+								</Element>
+								<Element Index="[1]">
+									<Structure DataType="TIMER">
+										<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="0"/>
+										<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
+										<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+										<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+										<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+									</Structure>
+								</Element>
+							</Array>
+						</DefaultData>
+					</LocalTag>
+					<LocalTag Name="T_holding_signal" DataType="TIMER" Dimensions="2" ExternalAccess="None">
+						<DefaultData Format="L5K">
+							<![CDATA[[[1073741824,50,0],[0,0,0]]]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<Array DataType="TIMER" Dimensions="2">
+								<Element Index="[0]">
+									<Structure DataType="TIMER">
+										<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="50"/>
+										<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
+										<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+										<DataValueMember Name="TT" DataType="BOOL" Value="1"/>
+										<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+									</Structure>
+								</Element>
+								<Element Index="[1]">
+									<Structure DataType="TIMER">
+										<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="0"/>
+										<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
+										<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+										<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+										<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+									</Structure>
+								</Element>
+							</Array>
+						</DefaultData>
+					</LocalTag>
+					<LocalTag Name="wrk_detect" DataType="BOOL" Dimensions="32" Radix="Decimal" ExternalAccess="None">
+						<DefaultData Format="L5K">
+							<![CDATA[[2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0]]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<Array DataType="BOOL" Dimensions="32" Radix="Decimal">
+								<Element Index="[0]" Value="0"/>
+								<Element Index="[1]" Value="0"/>
+								<Element Index="[2]" Value="0"/>
+								<Element Index="[3]" Value="0"/>
+								<Element Index="[4]" Value="0"/>
+								<Element Index="[5]" Value="0"/>
+								<Element Index="[6]" Value="0"/>
+								<Element Index="[7]" Value="0"/>
+								<Element Index="[8]" Value="0"/>
+								<Element Index="[9]" Value="0"/>
+								<Element Index="[10]" Value="0"/>
+								<Element Index="[11]" Value="0"/>
+								<Element Index="[12]" Value="0"/>
+								<Element Index="[13]" Value="0"/>
+								<Element Index="[14]" Value="0"/>
+								<Element Index="[15]" Value="0"/>
+								<Element Index="[16]" Value="0"/>
+								<Element Index="[17]" Value="0"/>
+								<Element Index="[18]" Value="0"/>
+								<Element Index="[19]" Value="0"/>
+								<Element Index="[20]" Value="0"/>
+								<Element Index="[21]" Value="0"/>
+								<Element Index="[22]" Value="0"/>
+								<Element Index="[23]" Value="0"/>
+								<Element Index="[24]" Value="0"/>
+								<Element Index="[25]" Value="0"/>
+								<Element Index="[26]" Value="0"/>
+								<Element Index="[27]" Value="0"/>
+								<Element Index="[28]" Value="0"/>
+								<Element Index="[29]" Value="0"/>
+								<Element Index="[30]" Value="0"/>
+								<Element Index="[31]" Value="0"/>
+							</Array>
+						</DefaultData>
+					</LocalTag>
+					<LocalTag Name="ons_reset" DataType="BOOL" Radix="Decimal" ExternalAccess="None">
+						<Description>
+							<![CDATA[reset only once]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</LocalTag>
+				</LocalTags>
+				<Routines>
+					<Routine Name="Logic" Type="RLL">
+						<RLLContent>
+							<Rung Number="0" Type="N">
+								<Comment>
+									<![CDATA[First scan of AOI always start with holding timers]]>
+								</Comment>
+								<Text>
+									<![CDATA[NOP();]]>
+								</Text>
+							</Rung>
+							<Rung Number="1" Type="N">
+								<Text>
+									<![CDATA[XIO(cnf_Simulation)XIC(cnf_Detect_High_or_Low)XIC(Input)XIC(T_minimal_detect[0].DN)TOF(T_holding_signal[0],?,?);]]>
+								</Text>
+							</Rung>
+							<Rung Number="2" Type="N">
+								<Text>
+									<![CDATA[XIO(cnf_Simulation)XIO(cnf_Detect_High_or_Low)XIO(Input)XIC(T_minimal_detect[1].DN)TOF(T_holding_signal[1],?,?);]]>
+								</Text>
+							</Rung>
+							<Rung Number="3" Type="N">
+								<Comment>
+									<![CDATA[Detect on high signal]]>
+								</Comment>
+								<Text>
+									<![CDATA[XIC(cnf_Detect_High_or_Low)[[XIO(cnf_Simulation) XIC(Input) TON(T_minimal_detect[0],?,?) XIC(T_minimal_detect[0].DN) ,XIC(cnf_Simulation) XIO(cnf_Simulation_Value) ] OTE(wrk_detect[0]) ,XIC(T_holding_signal[0].TT) ]TON(T_maximal_detect[0],?,?)XIC(T_maximal_detect[0].DN)XIC(cnf_UseAlarm)OTL(Alarm);]]>
+								</Text>
+							</Rung>
+							<Rung Number="4" Type="N">
+								<Comment>
+									<![CDATA[Detect on Low signal]]>
+								</Comment>
+								<Text>
+									<![CDATA[XIO(cnf_Detect_High_or_Low)[[XIO(cnf_Simulation) XIO(Input) TON(T_minimal_detect[1],?,?) XIC(T_minimal_detect[1].DN) ,XIC(cnf_Simulation) XIO(cnf_Simulation_Value) ] OTE(wrk_detect[1]) ,XIC(T_holding_signal[1].TT) ]TON(T_maximal_detect[1],?,?)XIC(T_maximal_detect[1].DN)XIC(cnf_UseAlarm)OTL(Alarm);]]>
+								</Text>
+							</Rung>
+							<Rung Number="5" Type="N">
+								<Text>
+									<![CDATA[[XIC(wrk_detect[0]) ,XIC(wrk_detect[1]) ]OTE(Sts_Detected);]]>
+								</Text>
+							</Rung>
+							<Rung Number="6" Type="N">
+								<Text>
+									<![CDATA[XIC(reset)ONS(ons_reset)XIC(Alarm)OTU(Alarm);]]>
+								</Text>
+							</Rung>
+							<Rung Number="7" Type="N">
+								<Comment>
+									<![CDATA[Set timer values]]>
+								</Comment>
+								<Text>
+									<![CDATA[[MOV(cnf_Minimal_Detect_time,T_minimal_detect[0].PRE) ,MOV(cnf_Minimal_Detect_time,T_minimal_detect[1].PRE) ][MOV(cnf_Maximal_Detect_time,T_maximal_detect[0].PRE) ,MOV(cnf_Maximal_Detect_time,T_maximal_detect[1].PRE) ][MOV(cnf_holding_Signal_time,T_holding_signal[0].PRE) ,MOV(cnf_holding_Signal_time,T_holding_signal[1].PRE) ];]]>
+								</Text>
+							</Rung>
+						</RLLContent>
+					</Routine>
+				</Routines>
+			</AddOnInstructionDefinition>
+		</AddOnInstructionDefinitions>
+		<Programs Use="Context">
+			<Program Use="Context" Name="Unit1_Aerator_EM01_Buffertank" Class="Standard">
+				<Tags Use="Context">
+					<Tag Name="DigitalSensorObject" TagType="Base" DataType="HMI_DIG_Sensor_advanced" Constant="false" ExternalAccess="Read/Write">
+						<Data Format="L5K">
+							<![CDATA[[39,2500,15000,5000,[[0,250,0],[0,250,0]],[[0,5000,0],[0,0,0]],[[9613,2000,50],[9613,2000,0]],[2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0
+		,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0]]]]>
+						</Data>
+						<Data Format="Decorated">
+							<Structure DataType="HMI_DIG_Sensor_advanced">
+								<DataValueMember Name="EnableIn" DataType="BOOL" Value="1"/>
+								<DataValueMember Name="EnableOut" DataType="BOOL" Value="1"/>
+								<DataValueMember Name="Input" DataType="BOOL" Value="1"/>
+								<DataValueMember Name="reset" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="Alarm" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="cnf_Detect_High_or_Low" DataType="BOOL" Value="Template_Detect_1_or_0"/>
+								<DataValueMember Name="Sts_Detected" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="cnf_Simulation" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="cnf_Simulation_Value" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="cnf_UseAlarm" DataType="BOOL" Value="Template_UseAlarm"/>
+								<DataValueMember Name="cnf_Minimal_Detect_time" DataType="DINT" Radix="Decimal" Value="Template_MinimalTime"/>
+								<DataValueMember Name="cnf_Maximal_Detect_time" DataType="DINT" Radix="Decimal" Value="Template_MaximalTime"/>
+								<DataValueMember Name="cnf_holding_Signal_time" DataType="DINT" Radix="Decimal" Value="Template_HoldingTime"/>
+							</Structure>
+						</Data>
+					</Tag>
+					<Tag Name="DigitalSensorObject_wrk_conversion" TagType="Base" DataType="DINT" Dimensions="7" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+						<Data Format="L5K">
+							<![CDATA[[0,0,0,0,0,0,0]]]>
+						</Data>
+						<Data Format="Decorated">
+							<Array DataType="DINT" Dimensions="7" Radix="Decimal">
+								<Element Index="[0]" Value="0"/>
+								<Element Index="[1]" Value="0"/>
+								<Element Index="[2]" Value="0"/>
+								<Element Index="[3]" Value="0"/>
+								<Element Index="[4]" Value="0"/>
+								<Element Index="[5]" Value="0"/>
+								<Element Index="[6]" Value="0"/>
+							</Array>
+						</Data>
+					</Tag>
+					<Tag Name="dscript_parameter_DigitalSensorObject" TagType="Base" DataType="Descriptor" Dimensions="7" Usage="Public" Constant="false" ExternalAccess="Read/Write">
+						<Data Format="L5K">
+							<![CDATA[[[0,[13,'Detect 1 or 0$00$00$00'],[8,'UserUnit'],0.00000000e+000],[0,[10,'Simulation$00$00$00$00$00$00'
+		],[8,'UserUnit'],0.00000000e+000],[0,[16,'Simulation Value'],[8,'UserUnit'],0.00000000e+000],[0,[9,'Use Alarm$00$00$00$00$00$00$00'
+		],[8,'UserUnit'],0.00000000e+000],[0,[12,'Minimal time$00$00$00$00'],[2,'ms$00$00$00$00$00$00'],0.00000000e+000
+		],[0,[12,'Maximal time$00$00$00$00'],[2,'ms$00$00$00$00$00$00'],0.00000000e+000],[0,[12,'Holding time$00$00$00$00'
+		],[2,'ms$00$00$00$00$00$00'],0.00000000e+000]]]]>
+						</Data>
+						<Data Format="Decorated">
+							<Array DataType="Descriptor" Dimensions="7">
+								<Element Index="[0]">
+									<Structure DataType="Descriptor">
+										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
+										<StructureMember Name="Name" DataType="STRING_16">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="13"/>
+											<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+												<![CDATA['Detect 1 or 0']]>
+											</DataValueMember>
+										</StructureMember>
+										<StructureMember Name="Unit" DataType="STRING_08">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="8"/>
+											<DataValueMember Name="DATA" DataType="STRING_08" Radix="ASCII">
+												<![CDATA['UserUnit']]>
+											</DataValueMember>
+										</StructureMember>
+										<DataValueMember Name="Value" DataType="REAL" Radix="Float" Value="Template_Detect_1_or_0"/>
+									</Structure>
+								</Element>
+								<Element Index="[1]">
+									<Structure DataType="Descriptor">
+										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
+										<StructureMember Name="Name" DataType="STRING_16">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="10"/>
+											<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+												<![CDATA['Simulation']]>
+											</DataValueMember>
+										</StructureMember>
+										<StructureMember Name="Unit" DataType="STRING_08">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="8"/>
+											<DataValueMember Name="DATA" DataType="STRING_08" Radix="ASCII">
+												<![CDATA['UserUnit']]>
+											</DataValueMember>
+										</StructureMember>
+										<DataValueMember Name="Value" DataType="REAL" Radix="Float" Value="0.0"/>
+									</Structure>
+								</Element>
+								<Element Index="[2]">
+									<Structure DataType="Descriptor">
+										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
+										<StructureMember Name="Name" DataType="STRING_16">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="16"/>
+											<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+												<![CDATA['Simulation Value']]>
+											</DataValueMember>
+										</StructureMember>
+										<StructureMember Name="Unit" DataType="STRING_08">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="8"/>
+											<DataValueMember Name="DATA" DataType="STRING_08" Radix="ASCII">
+												<![CDATA['UserUnit']]>
+											</DataValueMember>
+										</StructureMember>
+										<DataValueMember Name="Value" DataType="REAL" Radix="Float" Value="0.0"/>
+									</Structure>
+								</Element>
+								<Element Index="[3]">
+									<Structure DataType="Descriptor">
+										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
+										<StructureMember Name="Name" DataType="STRING_16">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="9"/>
+											<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+												<![CDATA['Use Alarm']]>
+											</DataValueMember>
+										</StructureMember>
+										<StructureMember Name="Unit" DataType="STRING_08">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="8"/>
+											<DataValueMember Name="DATA" DataType="STRING_08" Radix="ASCII">
+												<![CDATA['UserUnit']]>
+											</DataValueMember>
+										</StructureMember>
+										<DataValueMember Name="Value" DataType="REAL" Radix="Float" Value="Template_UseAlarm"/>
+									</Structure>
+								</Element>
+								<Element Index="[4]">
+									<Structure DataType="Descriptor">
+										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
+										<StructureMember Name="Name" DataType="STRING_16">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="12"/>
+											<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+												<![CDATA['Minimal time']]>
+											</DataValueMember>
+										</StructureMember>
+										<StructureMember Name="Unit" DataType="STRING_08">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="2"/>
+											<DataValueMember Name="DATA" DataType="STRING_08" Radix="ASCII">
+												<![CDATA['ms']]>
+											</DataValueMember>
+										</StructureMember>
+										<DataValueMember Name="Value" DataType="REAL" Radix="Float" Value="Template_MinimalTime"/>
+									</Structure>
+								</Element>
+								<Element Index="[5]">
+									<Structure DataType="Descriptor">
+										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
+										<StructureMember Name="Name" DataType="STRING_16">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="12"/>
+											<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+												<![CDATA['Maximal time']]>
+											</DataValueMember>
+										</StructureMember>
+										<StructureMember Name="Unit" DataType="STRING_08">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="2"/>
+											<DataValueMember Name="DATA" DataType="STRING_08" Radix="ASCII">
+												<![CDATA['ms']]>
+											</DataValueMember>
+										</StructureMember>
+										<DataValueMember Name="Value" DataType="REAL" Radix="Float" Value="Template_MaximalTime"/>
+									</Structure>
+								</Element>
+								<Element Index="[6]">
+									<Structure DataType="Descriptor">
+										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
+										<StructureMember Name="Name" DataType="STRING_16">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="12"/>
+											<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+												<![CDATA['Holding time']]>
+											</DataValueMember>
+										</StructureMember>
+										<StructureMember Name="Unit" DataType="STRING_08">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="2"/>
+											<DataValueMember Name="DATA" DataType="STRING_08" Radix="ASCII">
+												<![CDATA['ms']]>
+											</DataValueMember>
+										</StructureMember>
+										<DataValueMember Name="Value" DataType="REAL" Radix="Float" Value="Template_HoldingTime"/>
+									</Structure>
+								</Element>
+							</Array>
+						</Data>
+					</Tag>
+					<Tag Name="IO_DigitalSensorObject" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+						<Data Format="L5K">
+							<![CDATA[1]]>
+						</Data>
+						<Data Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
+						</Data>
+					</Tag>
+				</Tags>
+				<Routines Use="Context">
+					<Routine Use="Target" Name="CM_000_DigIn" Type="RLL">
+						<RLLContent>
+							<Rung Number="0" Type="N">
+								<Text>
+									<![CDATA[HMI_DIG_Sensor_advanced(DigitalSensorObject,IO_DigitalSensorObject);]]>
+								</Text>
+							</Rung>
+							<Rung Number="1" Type="N">
+								<Text>
+									<![CDATA[XIC(DigitalSensorObject.reset)OTE(DigitalSensorObject.reset);]]>
+								</Text>
+							</Rung>
+							<Rung Number="2" Type="N">
+								<Comment>
+									<![CDATA[ 
+ 
+Descriptor tags 
+ 
+ 
+]]>
+								</Comment>
+								<Text>
+									<![CDATA[NOP();]]>
+								</Text>
+							</Rung>
+							<Rung Number="3" Type="N">
+								<Text>
+									<![CDATA[MOV(dscript_parameter_DigitalSensorObject[0].Name,dscript_parameter_DigitalSensorObject[0].Name)MOV(dscript_parameter_DigitalSensorObject[0].Value,DigitalSensorObject_wrk_conversion[0])MOV(dscript_parameter_DigitalSensorObject[0].Unit,dscript_parameter_DigitalSensorObject[0].Unit)XIC(DigitalSensorObject_wrk_conversion[0].0)OTE(DigitalSensorObject.cnf_Detect_High_or_Low);]]>
+								</Text>
+							</Rung>
+							<Rung Number="4" Type="N">
+								<Text>
+									<![CDATA[MOV(dscript_parameter_DigitalSensorObject[1].Name,dscript_parameter_DigitalSensorObject[1].Name)MOV(dscript_parameter_DigitalSensorObject[1].Value,DigitalSensorObject_wrk_conversion[1])MOV(dscript_parameter_DigitalSensorObject[1].Unit,dscript_parameter_DigitalSensorObject[1].Unit)XIC(DigitalSensorObject_wrk_conversion[1].0)OTE(DigitalSensorObject.cnf_Simulation);]]>
+								</Text>
+							</Rung>
+							<Rung Number="5" Type="N">
+								<Text>
+									<![CDATA[MOV(dscript_parameter_DigitalSensorObject[2].Name,dscript_parameter_DigitalSensorObject[2].Name)MOV(dscript_parameter_DigitalSensorObject[2].Value,DigitalSensorObject_wrk_conversion[2])MOV(dscript_parameter_DigitalSensorObject[2].Unit,dscript_parameter_DigitalSensorObject[2].Unit)XIC(DigitalSensorObject_wrk_conversion[2].0)OTE(DigitalSensorObject.cnf_Simulation_Value);]]>
+								</Text>
+							</Rung>
+							<Rung Number="6" Type="N">
+								<Text>
+									<![CDATA[MOV(dscript_parameter_DigitalSensorObject[3].Name,dscript_parameter_DigitalSensorObject[3].Name)MOV(dscript_parameter_DigitalSensorObject[3].Value,DigitalSensorObject_wrk_conversion[3])MOV(dscript_parameter_DigitalSensorObject[3].Unit,dscript_parameter_DigitalSensorObject[3].Unit)XIC(DigitalSensorObject_wrk_conversion[3].0)OTE(DigitalSensorObject.cnf_UseAlarm);]]>
+								</Text>
+							</Rung>
+							<Rung Number="7" Type="N">
+								<Text>
+									<![CDATA[MOV(dscript_parameter_DigitalSensorObject[4].Name,dscript_parameter_DigitalSensorObject[4].Name)MOV(dscript_parameter_DigitalSensorObject[4].Value,DigitalSensorObject.cnf_Minimal_Detect_time)MOV(dscript_parameter_DigitalSensorObject[4].Unit,dscript_parameter_DigitalSensorObject[4].Unit);]]>
+								</Text>
+							</Rung>
+							<Rung Number="8" Type="N">
+								<Text>
+									<![CDATA[MOV(dscript_parameter_DigitalSensorObject[5].Name,dscript_parameter_DigitalSensorObject[5].Name)MOV(dscript_parameter_DigitalSensorObject[5].Value,DigitalSensorObject.cnf_Maximal_Detect_time)MOV(dscript_parameter_DigitalSensorObject[5].Unit,dscript_parameter_DigitalSensorObject[5].Unit);]]>
+								</Text>
+							</Rung>
+							<Rung Number="9" Type="N">
+								<Text>
+									<![CDATA[MOV(dscript_parameter_DigitalSensorObject[6].Name,dscript_parameter_DigitalSensorObject[6].Name)MOV(dscript_parameter_DigitalSensorObject[6].Value,DigitalSensorObject.cnf_holding_Signal_time)MOV(dscript_parameter_DigitalSensorObject[6].Unit,dscript_parameter_DigitalSensorObject[6].Unit);]]>
+								</Text>
+							</Rung>
+						</RLLContent>
+					</Routine>
+				</Routines>
+			</Program>
+		</Programs>
+	</Controller>
+</RSLogix5000Content>

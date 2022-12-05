@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="33.00" TargetName="OP_TemplateAgitator" TargetType="Routine" TargetSubType="RLL" TargetClass="Standard" ContainsContext="true" ExportDate="Mon Dec 05 10:26:48 2022" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+	<Controller Use="Context" Name="TestProject">
+		<DataTypes Use="Context">
+			<DataType Name="Descriptor" Family="NoFamily" Class="User">
+				<Members>
+					<Member Name="ID" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[ID value of Parameter]]>
+						</Description>
+					</Member>
+					<Member Name="Name" DataType="STRING_16" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Parameter name]]>
+						</Description>
+					</Member>
+					<Member Name="Unit" DataType="STRING_08" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Unit of measure of the parameter]]>
+						</Description>
+					</Member>
+					<Member Name="Value" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Parameter Values]]>
+						</Description>
+					</Member>
+				</Members>
+				<Dependencies>
+					<Dependency Type="DataType" Name="STRING_08"/>
+				</Dependencies>
+			</DataType>
+			<DataType Name="OP_Agitator" Family="NoFamily" Class="User">
+				<Description>
+					<![CDATA[Agitator with guardswitch(lock)]]>
+				</Description>
+				<Members>
+					<Member Name="ZZZZZZZZZZOP_Agitato0" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+					<Member Name="Input_Start" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZOP_Agitato0" BitNumber="0" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Start agitator]]>
+						</Description>
+					</Member>
+					<Member Name="Input_Lock" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZOP_Agitato0" BitNumber="1" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Lock tank]]>
+						</Description>
+					</Member>
+					<Member Name="dscript_Agitator_Speed" DataType="Descriptor" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+					<Member Name="ZZZZZZZZZZOP_Agitato4" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+					<Member Name="Output_AgitatorRunning" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZOP_Agitato4" BitNumber="0" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Tank is locked and agitator is running]]>
+						</Description>
+					</Member>
+					<Member Name="Output_Tank_Open" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZOP_Agitato4" BitNumber="1" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Tank is open]]>
+						</Description>
+					</Member>
+					<Member Name="Output_Tank_Closed" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZOP_Agitato4" BitNumber="2" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Tank is closed]]>
+						</Description>
+					</Member>
+					<Member Name="Output_Tank_Locked" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZOP_Agitato4" BitNumber="3" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Tank is locked]]>
+						</Description>
+					</Member>
+					<Member Name="wrk_MotorRunning" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZOP_Agitato4" BitNumber="4" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Agitator motor is moving]]>
+						</Description>
+					</Member>
+					<Member Name="wrk_MotorStandstill" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZOP_Agitato4" BitNumber="5" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Agitator motor is not moving]]>
+						</Description>
+					</Member>
+					<Member Name="Req_LockTank" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZOP_Agitato4" BitNumber="6" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Request to lock tank]]>
+						</Description>
+					</Member>
+					<Member Name="Req_StartMotor" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZOP_Agitato4" BitNumber="7" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Request to start the motor]]>
+						</Description>
+					</Member>
+				</Members>
+				<Dependencies>
+					<Dependency Type="DataType" Name="Descriptor"/>
+				</Dependencies>
+			</DataType>
+			<DataType Name="STRING_08" Family="StringFamily" Class="User">
+				<Description>
+					<![CDATA[only 8 chars]]>
+				</Description>
+				<Members>
+					<Member Name="LEN" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+					<Member Name="DATA" DataType="SINT" Dimension="8" Radix="ASCII" Hidden="false" ExternalAccess="Read/Write"/>
+				</Members>
+			</DataType>
+		</DataTypes>
+		<Programs Use="Context">
+			<Program Use="Context" Name="testProg" Class="Standard">
+				<Tags Use="Context">
+					<Tag Name="OP_TemplateAgitator" TagType="Base" DataType="OP_Agitator" Usage="Public" Constant="false" ExternalAccess="Read/Write">
+						<Data Format="L5K">
+							<![CDATA[[0,[0,[14,'Agitator speed$00$00'],[0,'$00$00$00$00$00$00$00$00'],0.00000000e+000],0]]]>
+						</Data>
+						<Data Format="Decorated">
+							<Structure DataType="OP_Agitator">
+								<DataValueMember Name="Input_Start" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="Input_Lock" DataType="BOOL" Value="0"/>
+								<StructureMember Name="dscript_Agitator_Speed" DataType="Descriptor">
+									<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
+									<StructureMember Name="Name" DataType="STRING_16">
+										<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="14"/>
+										<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+											<![CDATA['Agitator speed']]>
+										</DataValueMember>
+									</StructureMember>
+									<StructureMember Name="Unit" DataType="STRING_08">
+										<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="0"/>
+										<DataValueMember Name="DATA" DataType="STRING_08" Radix="ASCII">
+											<![CDATA[]]>
+										</DataValueMember>
+									</StructureMember>
+									<DataValueMember Name="Value" DataType="REAL" Radix="Float" Value="0.0"/>
+								</StructureMember>
+								<DataValueMember Name="Output_AgitatorRunning" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="Output_Tank_Open" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="Output_Tank_Closed" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="Output_Tank_Locked" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="wrk_MotorRunning" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="wrk_MotorStandstill" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="Req_LockTank" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="Req_StartMotor" DataType="BOOL" Value="0"/>
+							</Structure>
+						</Data>
+					</Tag>
+				</Tags>
+				<Routines Use="Context">
+					<Routine Use="Target" Name="OP_TemplateAgitator" Type="RLL">
+						<RLLContent>
+							<Rung Number="0" Type="N">
+								<Comment>
+									<![CDATA[ 
+
+Link OP to physical
+ 
+ ]]>
+								</Comment>
+								<Text>
+									<![CDATA[NOP();]]>
+								</Text>
+							</Rung>
+							<Rung Number="1" Type="N">
+								<Text>
+									<![CDATA[XIC(OP_TemplateAgitator.Req_StartMotor)NOP();]]>
+								</Text>
+							</Rung>
+							<Rung Number="2" Type="N">
+								<Text>
+									<![CDATA[AFI()OTE(OP_TemplateAgitator.wrk_MotorRunning);]]>
+								</Text>
+							</Rung>
+							<Rung Number="3" Type="N">
+								<Text>
+									<![CDATA[AFI()OTE(OP_TemplateAgitator.wrk_MotorStandstill);]]>
+								</Text>
+							</Rung>
+							<Rung Number="4" Type="N">
+								<Text>
+									<![CDATA[AFI()OTE(OP_TemplateAgitator.Output_Tank_Locked);]]>
+								</Text>
+							</Rung>
+							<Rung Number="5" Type="N">
+								<Text>
+									<![CDATA[AFI()OTE(OP_TemplateAgitator.Output_Tank_Open);]]>
+								</Text>
+							</Rung>
+							<Rung Number="6" Type="N">
+								<Text>
+									<![CDATA[AFI()OTE(OP_TemplateAgitator.Output_Tank_Closed);]]>
+								</Text>
+							</Rung>
+							<Rung Number="7" Type="N">
+								<Text>
+									<![CDATA[XIC(OP_TemplateAgitator.Req_StartMotor)MOV(OP_TemplateAgitator.dscript_Agitator_Speed.Value,OP_TemplateAgitator.dscript_Agitator_Speed.Value);]]>
+								</Text>
+							</Rung>
+							<Rung Number="8" Type="N">
+								<Comment>
+									<![CDATA[
+ 
+Operation Programma logic
+ 
+ ]]>
+								</Comment>
+								<Text>
+									<![CDATA[NOP();]]>
+								</Text>
+							</Rung>
+							<Rung Number="9" Type="N">
+								<Text>
+									<![CDATA[XIC(OP_TemplateAgitator.Input_Start)XIC(OP_TemplateAgitator.Output_Tank_Locked)OTE(OP_TemplateAgitator.Req_StartMotor);]]>
+								</Text>
+							</Rung>
+							<Rung Number="10" Type="N">
+								<Text>
+									<![CDATA[[XIC(OP_TemplateAgitator.Input_Lock) XIC(OP_TemplateAgitator.Output_Tank_Closed) ,XIC(OP_TemplateAgitator.wrk_MotorRunning) ,XIO(OP_TemplateAgitator.wrk_MotorStandstill) ]OTE(OP_TemplateAgitator.Req_LockTank);]]>
+								</Text>
+							</Rung>
+							<Rung Number="11" Type="N">
+								<Text>
+									<![CDATA[XIC(OP_TemplateAgitator.wrk_MotorRunning)XIO(OP_TemplateAgitator.Output_Tank_Open)XIC(OP_TemplateAgitator.Output_Tank_Closed)XIC(OP_TemplateAgitator.Output_Tank_Locked)OTE(OP_TemplateAgitator.Output_AgitatorRunning);]]>
+								</Text>
+							</Rung>
+						</RLLContent>
+					</Routine>
+				</Routines>
+			</Program>
+		</Programs>
+	</Controller>
+</RSLogix5000Content>
