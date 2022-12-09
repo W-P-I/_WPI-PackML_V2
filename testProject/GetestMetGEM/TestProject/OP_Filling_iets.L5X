@@ -1,0 +1,201 @@
+
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="33.00" TargetName="OP_TemplateFillingWater" TargetType="Routine" TargetSubType="RLL" TargetClass="Standard" ContainsContext="true" ExportDate="Tue Nov 29 15:38:33 2022" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+	<Controller Use="Context" Name="TestProject">
+		<DataTypes Use="Context">
+			<DataType Name="Descriptor" Family="NoFamily" Class="User">
+				<Members>
+					<Member Name="ID" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[ID value of Parameter]]>
+						</Description>
+					</Member>
+					<Member Name="Name" DataType="STRING_16" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Parameter name]]>
+						</Description>
+					</Member>
+					<Member Name="Unit" DataType="STRING_08" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Unit of measure of the parameter]]>
+						</Description>
+					</Member>
+					<Member Name="Value" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Parameter Values]]>
+						</Description>
+					</Member>
+				</Members>
+				<Dependencies>
+					<Dependency Type="DataType" Name="STRING_08"/>
+				</Dependencies>
+			</DataType>
+			<DataType Name="OP_FillingWater" Family="NoFamily" Class="User">
+				<Description>
+					<![CDATA[Fillwater]]>
+				</Description>
+				<Members>
+					<Member Name="ZZZZZZZZZZOP_Filling0" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+					<Member Name="Input_StartFilling" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZOP_Filling0" BitNumber="0" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Start filling the object]]>
+						</Description>
+					</Member>
+					<Member Name="dscript_FillingWater_Setpoint" DataType="Descriptor" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Setpoint for filling water]]>
+						</Description>
+					</Member>
+					<Member Name="ZZZZZZZZZZOP_Filling3" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+					<Member Name="Output_FillingWater" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZOP_Filling3" BitNumber="0" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Currently Filling water]]>
+						</Description>
+					</Member>
+					<Member Name="Output_Done" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZOP_Filling3" BitNumber="1" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Filling is done]]>
+						</Description>
+					</Member>
+					<Member Name="Output_CurrentValue" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[ActualValue of object]]>
+						</Description>
+					</Member>
+					<Member Name="wrk_Timer" DataType="TIMER" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[timer to avoid smooth out filling]]>
+						</Description>
+					</Member>
+					<Member Name="ZZZZZZZZZZOP_Filling8" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+					<Member Name="Req_OpenValves" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZOP_Filling8" BitNumber="0" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Request to open valves to enable filling]]>
+						</Description>
+					</Member>
+				</Members>
+				<Dependencies>
+					<Dependency Type="DataType" Name="Descriptor"/>
+				</Dependencies>
+			</DataType>
+			<DataType Name="STRING_08" Family="StringFamily" Class="User">
+				<Description>
+					<![CDATA[only 8 chars]]>
+				</Description>
+				<Members>
+					<Member Name="LEN" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+					<Member Name="DATA" DataType="SINT" Dimension="8" Radix="ASCII" Hidden="false" ExternalAccess="Read/Write"/>
+				</Members>
+			</DataType>
+		</DataTypes>
+		<Programs Use="Context">
+			<Program Use="Context" Name="OP_Export" Class="Standard">
+				<Tags Use="Context">
+					<Tag Name="OP_FillingwaterDikkeSander" TagType="Base" DataType="OP_FillingWater" Usage="Public" Constant="false" ExternalAccess="Read/Write">
+						<Data Format="L5K">
+							<![CDATA[[0,[0,[0,'$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00'],[0,'$00$00$00$00$00$00$00$00'],0.00000000e+000
+		],0,0.00000000e+000,[0,500,0],0]]]>
+						</Data>
+						<Data Format="Decorated">
+							<Structure DataType="OP_FillingWater">
+								<DataValueMember Name="Input_StartFilling" DataType="BOOL" Value="0"/>
+								<StructureMember Name="dscript_FillingWater_Setpoint" DataType="Descriptor">
+									<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
+									<StructureMember Name="Name" DataType="STRING_16">
+										<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="0"/>
+										<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+											<![CDATA[]]>
+										</DataValueMember>
+									</StructureMember>
+									<StructureMember Name="Unit" DataType="STRING_08">
+										<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="0"/>
+										<DataValueMember Name="DATA" DataType="STRING_08" Radix="ASCII">
+											<![CDATA[]]>
+										</DataValueMember>
+									</StructureMember>
+									<DataValueMember Name="Value" DataType="REAL" Radix="Float" Value="0.0"/>
+								</StructureMember>
+								<DataValueMember Name="Output_FillingWater" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="Output_Done" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="Output_CurrentValue" DataType="REAL" Radix="Float" Value="0.0"/>
+								<StructureMember Name="wrk_Timer" DataType="TIMER">
+									<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="500"/>
+									<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
+									<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+									<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+									<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+								</StructureMember>
+								<DataValueMember Name="Req_OpenValves" DataType="BOOL" Value="0"/>
+							</Structure>
+						</Data>
+					</Tag>
+				</Tags>
+				<Routines Use="Context">
+					<Routine Use="Target" Name="OP_TemplateFillingWater" Type="RLL">
+						<RLLContent>
+							<Rung Number="0" Type="N">
+								<Comment>
+									<![CDATA[ 
+
+Link OP to physical
+ 
+ ]]>
+								</Comment>
+								<Text>
+									<![CDATA[NOP();]]>
+								</Text>
+							</Rung>
+							<Rung Number="1" Type="N">
+								<Comment>
+									<![CDATA[Link objects actual value to OP item]]>
+								</Comment>
+								<Text>
+									<![CDATA[MOV(?,OP_FillingwaterDikkeSander.Output_CurrentValue);]]>
+								</Text>
+							</Rung>
+							<Rung Number="2" Type="N">
+								<Comment>
+									<![CDATA[Link valve turn on 
+]]>
+								</Comment>
+								<Text>
+									<![CDATA[XIC(OP_FillingwaterDikkeSander.Req_OpenValves)NOP();]]>
+								</Text>
+							</Rung>
+							<Rung Number="3" Type="N">
+								<Comment>
+									<![CDATA[Link valve status to OP item]]>
+								</Comment>
+								<Text>
+									<![CDATA[XIC(?)OTE(OP_FillingwaterDikkeSander.Output_FillingWater);]]>
+								</Text>
+							</Rung>
+							<Rung Number="4" Type="N">
+								<Comment>
+									<![CDATA[
+ 
+Operation Programma logic
+ 
+ ]]>
+								</Comment>
+								<Text>
+									<![CDATA[NOP();]]>
+								</Text>
+							</Rung>
+							<Rung Number="5" Type="N">
+								<Text>
+									<![CDATA[XIC(OP_FillingwaterDikkeSander.Input_StartFilling)LES(OP_FillingwaterDikkeSander.Output_CurrentValue,OP_FillingwaterDikkeSander.dscript_FillingWater_Setpoint.Value)OTE(OP_FillingwaterDikkeSander.Req_OpenValves);]]>
+								</Text>
+							</Rung>
+							<Rung Number="6" Type="N">
+								<Text>
+									<![CDATA[GEQ(OP_FillingwaterDikkeSander.Output_CurrentValue,OP_FillingwaterDikkeSander.dscript_FillingWater_Setpoint.Value)TON(OP_FillingwaterDikkeSander.wrk_Timer,?,?)XIC(OP_FillingwaterDikkeSander.wrk_Timer.DN)OTE(OP_FillingwaterDikkeSander.Output_Done);]]>
+								</Text>
+							</Rung>
+						</RLLContent>
+					</Routine>
+				</Routines>
+			</Program>
+		</Programs>
+	</Controller>
+</RSLogix5000Content>

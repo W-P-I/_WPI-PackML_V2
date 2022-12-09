@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="33.00" TargetName="OP_TemplateAutoFill" TargetType="Routine" TargetSubType="RLL" TargetClass="Standard" ContainsContext="true" ExportDate="Mon Dec 05 10:26:51 2022" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Context" Name="TestProject">
+<DataTypes Use="Context">
+<DataType Name="Descriptor" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ID" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[ID value of Parameter]]>
+</Description>
+</Member>
+<Member Name="Name" DataType="STRING_16" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Parameter name]]>
+</Description>
+</Member>
+<Member Name="Unit" DataType="STRING_08" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Unit of measure of the parameter]]>
+</Description>
+</Member>
+<Member Name="Value" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Parameter Values]]>
+</Description>
+</Member>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="STRING_08"/>
+</Dependencies>
+</DataType>
+<DataType Name="OP_AutoFill" Family="NoFamily" Class="User">
+<Description>
+<![CDATA[Fill object based on High turn on point and low turn off point]]>
+</Description>
+<Members>
+<Member Name="Input_CurrentValue" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[ActualValue of object that requires to be filled.]]>
+</Description>
+</Member>
+<Member Name="ZZZZZZZZZZOP_AutoFil1" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="Input_EnableAutofill" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZOP_AutoFil1" BitNumber="0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Enables autofill]]>
+</Description>
+</Member>
+<Member Name="dscript_Highlevel" DataType="Descriptor" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Highlevel setpoint]]>
+</Description>
+</Member>
+<Member Name="dscript_Lowlevel" DataType="Descriptor" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Lowlevel setpoint]]>
+</Description>
+</Member>
+<Member Name="ZZZZZZZZZZOP_AutoFil5" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="Req_FillingRoute_Open" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZOP_AutoFil5" BitNumber="0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Request valves to be opened]]>
+</Description>
+</Member>
+<Member Name="Output_CurrentError" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Difference between Highlevel setpoint and CurrentValue]]>
+</Description>
+</Member>
+<Member Name="ZZZZZZZZZZOP_AutoFil8" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="Output_Dosing" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZOP_AutoFil8" BitNumber="0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Autofill is currently filling object]]>
+</Description>
+</Member>
+<Member Name="Output_FillingRoute_Open" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZOP_AutoFil8" BitNumber="1" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Route to object is open, may start dosing]]>
+</Description>
+</Member>
+<Member Name="Req_StartFilling" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZOP_AutoFil8" BitNumber="2" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Request to start filling]]>
+</Description>
+</Member>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="Descriptor"/>
+<Dependency Type="DataType" Name="Descriptor"/>
+</Dependencies>
+</DataType>
+<DataType Name="STRING_08" Family="StringFamily" Class="User">
+<Description>
+<![CDATA[only 8 chars]]>
+</Description>
+<Members>
+<Member Name="LEN" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="DATA" DataType="SINT" Dimension="8" Radix="ASCII" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+</DataTypes>
+<Programs Use="Context">
+<Program Use="Context" Name="testProg" Class="Standard">
+<Tags Use="Context">
+<Tag Name="OP_TemplateAutoFill" TagType="Base" DataType="OP_AutoFill" Usage="Public" Constant="false" ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[[6.00000000e+001,1,[0,[0,'$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00'],[0,'$00$00$00$00$00$00$00$00'
+		],8.00000000e+001],[0,[0,'$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00'],[0,'$00$00$00$00$00$00$00$00'
+		],0.00000000e+000],0,2.00000000e+001,2]]]>
+</Data>
+<Data Format="Decorated">
+<Structure DataType="OP_AutoFill">
+<DataValueMember Name="Input_CurrentValue" DataType="REAL" Radix="Float" Value="60.0"/>
+<DataValueMember Name="Input_EnableAutofill" DataType="BOOL" Value="1"/>
+<StructureMember Name="dscript_Highlevel" DataType="Descriptor">
+<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
+<StructureMember Name="Name" DataType="STRING_16">
+<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+<![CDATA[]]>
+</DataValueMember>
+</StructureMember>
+<StructureMember Name="Unit" DataType="STRING_08">
+<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="DATA" DataType="STRING_08" Radix="ASCII">
+<![CDATA[]]>
+</DataValueMember>
+</StructureMember>
+<DataValueMember Name="Value" DataType="REAL" Radix="Float" Value="80.0"/>
+</StructureMember>
+<StructureMember Name="dscript_Lowlevel" DataType="Descriptor">
+<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
+<StructureMember Name="Name" DataType="STRING_16">
+<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+<![CDATA[]]>
+</DataValueMember>
+</StructureMember>
+<StructureMember Name="Unit" DataType="STRING_08">
+<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="DATA" DataType="STRING_08" Radix="ASCII">
+<![CDATA[]]>
+</DataValueMember>
+</StructureMember>
+<DataValueMember Name="Value" DataType="REAL" Radix="Float" Value="0.0"/>
+</StructureMember>
+<DataValueMember Name="Req_FillingRoute_Open" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Output_CurrentError" DataType="REAL" Radix="Float" Value="20.0"/>
+<DataValueMember Name="Output_Dosing" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Output_FillingRoute_Open" DataType="BOOL" Value="1"/>
+<DataValueMember Name="Req_StartFilling" DataType="BOOL" Value="0"/>
+</Structure>
+</Data>
+</Tag>
+</Tags>
+<Routines Use="Context">
+<Routine Use="Target" Name="OP_TemplateAutoFill" Type="RLL">
+<RLLContent>
+<Rung Number="0" Type="N">
+<Comment>
+<![CDATA[ 
+
+Link OP to physical
+ 
+ ]]>
+</Comment>
+<Text>
+<![CDATA[NOP();]]>
+</Text>
+</Rung>
+<Rung Number="1" Type="N">
+<Text>
+<![CDATA[MOV(OP_TemplateAutoFill.Input_CurrentValue,OP_TemplateAutoFill.Input_CurrentValue);]]>
+</Text>
+</Rung>
+<Rung Number="2" Type="N">
+<Text>
+<![CDATA[XIC(OP_TemplateAutoFill.Req_FillingRoute_Open)NOP();]]>
+</Text>
+</Rung>
+<Rung Number="3" Type="N">
+<Text>
+<![CDATA[OTE(OP_TemplateAutoFill.Output_FillingRoute_Open);]]>
+</Text>
+</Rung>
+<Rung Number="4" Type="N">
+<Text>
+<![CDATA[XIC(OP_TemplateAutoFill.Req_StartFilling)NOP();]]>
+</Text>
+</Rung>
+<Rung Number="5" Type="N">
+<Text>
+<![CDATA[OTE(OP_TemplateAutoFill.Output_Dosing);]]>
+</Text>
+</Rung>
+<Rung Number="6" Type="N">
+<Comment>
+<![CDATA[
+ 
+Operation Programma logic
+ 
+ ]]>
+</Comment>
+<Text>
+<![CDATA[NOP();]]>
+</Text>
+</Rung>
+<Rung Number="7" Type="N">
+<Text>
+<![CDATA[SUB(OP_TemplateAutoFill.dscript_Highlevel.Value,OP_TemplateAutoFill.Input_CurrentValue,OP_TemplateAutoFill.Output_CurrentError);]]>
+</Text>
+</Rung>
+<Rung Number="8" Type="N">
+<Text>
+<![CDATA[XIC(OP_TemplateAutoFill.Input_EnableAutofill)GRT(OP_TemplateAutoFill.dscript_Highlevel.Value,OP_TemplateAutoFill.Input_CurrentValue)[OTL(OP_TemplateAutoFill.Req_FillingRoute_Open) ,XIC(OP_TemplateAutoFill.Output_FillingRoute_Open) OTL(OP_TemplateAutoFill.Req_StartFilling) ];]]>
+</Text>
+</Rung>
+<Rung Number="9" Type="N">
+<Text>
+<![CDATA[XIC(OP_TemplateAutoFill.Input_EnableAutofill)GEQ(OP_TemplateAutoFill.Input_CurrentValue,OP_TemplateAutoFill.dscript_Lowlevel.Value)[OTU(OP_TemplateAutoFill.Req_StartFilling) ,XIC(OP_TemplateAutoFill.Output_FillingRoute_Open) XIO(OP_TemplateAutoFill.Output_Dosing) OTU(OP_TemplateAutoFill.Req_FillingRoute_Open) ];]]>
+</Text>
+</Rung>
+<Rung Number="10" Type="N">
+<Text>
+<![CDATA[XIO(OP_TemplateAutoFill.Input_EnableAutofill)OTU(OP_TemplateAutoFill.Req_StartFilling);]]>
+</Text>
+</Rung>
+<Rung Number="11" Type="N">
+<Text>
+<![CDATA[XIO(OP_TemplateAutoFill.Input_EnableAutofill)XIO(OP_TemplateAutoFill.Output_Dosing)OTU(OP_TemplateAutoFill.Req_FillingRoute_Open);]]>
+</Text>
+</Rung>
+</RLLContent>
+</Routine>
+</Routines>
+</Program>
+</Programs>
+</Controller>
+</RSLogix5000Content>

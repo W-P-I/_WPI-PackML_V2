@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="33.00" TargetName="PlompRoute" TargetType="Routine" TargetSubType="RLL" TargetClass="Standard" ContainsContext="true" ExportDate="Mon Dec 05 10:38:09 2022" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+	<Controller Use="Context" Name="TestProject">
+		<DataTypes Use="Context">
+			<DataType Name="OP_ProductRoute" Family="NoFamily" Class="User">
+				<Members>
+					<Member Name="ZZZZZZZZZZOP_SupplyL0" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+					<Member Name="Input_OpenRoute" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZOP_SupplyL0" BitNumber="0" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[open product route]]>
+						</Description>
+					</Member>
+					<Member Name="Req_OpenRoute" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZOP_SupplyL0" BitNumber="1" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[request to open product route]]>
+						</Description>
+					</Member>
+					<Member Name="Output_RouteOpen" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZOP_SupplyL0" BitNumber="2" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Product route is open]]>
+						</Description>
+					</Member>
+				</Members>
+			</DataType>
+		</DataTypes>
+		<Programs Use="Context">
+			<Program Use="Context" Name="testProg" Class="Standard">
+				<Tags Use="Context">
+					<Tag Name="PlompRoute" TagType="Base" DataType="OP_ProductRoute" Usage="Public" Constant="false" ExternalAccess="Read/Write">
+						<Data Format="L5K">
+							<![CDATA[[0]]]>
+						</Data>
+						<Data Format="Decorated">
+							<Structure DataType="OP_ProductRoute">
+								<DataValueMember Name="Input_OpenRoute" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="Req_OpenRoute" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="Output_RouteOpen" DataType="BOOL" Value="0"/>
+							</Structure>
+						</Data>
+					</Tag>
+				</Tags>
+				<Routines Use="Context">
+					<Routine Use="Target" Name="PlompRoute" Type="RLL">
+						<RLLContent>
+							<Rung Number="0" Type="N">
+								<Comment>
+									<![CDATA[ 
+
+Link OP to physical
+ 
+ ]]>
+								</Comment>
+								<Text>
+									<![CDATA[NOP();]]>
+								</Text>
+							</Rung>
+							<Rung Number="1" Type="N">
+								<Text>
+									<![CDATA[XIC(PlompRoute.Req_OpenRoute)OTE(?);]]>
+								</Text>
+							</Rung>
+							<Rung Number="2" Type="N">
+								<Text>
+									<![CDATA[XIC(?)OTE(PlompRoute.Output_RouteOpen);]]>
+								</Text>
+							</Rung>
+							<Rung Number="3" Type="N">
+								<Comment>
+									<![CDATA[
+ 
+Operation Programma logic
+ 
+ ]]>
+								</Comment>
+								<Text>
+									<![CDATA[NOP();]]>
+								</Text>
+							</Rung>
+							<Rung Number="4" Type="N">
+								<Text>
+									<![CDATA[XIC(PlompRoute.Input_OpenRoute)OTE(PlompRoute.Req_OpenRoute);]]>
+								</Text>
+							</Rung>
+						</RLLContent>
+					</Routine>
+				</Routines>
+			</Program>
+		</Programs>
+	</Controller>
+</RSLogix5000Content>
+
