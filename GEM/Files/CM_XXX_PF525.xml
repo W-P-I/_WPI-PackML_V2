@@ -5787,7 +5787,7 @@ resetting drive will only effect the AOI while drive is faulted]]>
 							</Structure>
 						</Data>
 					</Tag>
-					<Tag Name="PF525_Object" TagType="Base" DataType="PF525_V3" Constant="false" ExternalAccess="Read/Write">
+					<Tag Name="PF525_Object" TagType="Base" DataType="PF525_V3" Usage="Public" Constant="false" ExternalAccess="Read/Write">
 						<Data Format="L5K">
 							<![CDATA[[1,0.00000000e+000,1.00000000e+002,0.00000000e+000,5.00000000e+001,0,0.00000000e+000,0.00000000e+000
 		,0,[1,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0,0.00000000e+000
@@ -5826,7 +5826,7 @@ resetting drive will only effect the AOI while drive is faulted]]>
 									<![CDATA[Overload drive]]>
 								</Comment>
 								<Text>
-									<![CDATA[HMI_DIG_Sensor(Overload_Object,IO_OL_Object,Overload_Object.reset);]]>
+									<![CDATA[HMI_DIG_Sensor(Overload_Object,IO_OL_Object,EquipmentModule.Reset_Signal);]]>
 								</Text>
 							</Rung>
 							<Rung Number="1" Type="N">
@@ -5839,7 +5839,7 @@ resetting drive will only effect the AOI while drive is faulted]]>
 							</Rung>
 							<Rung Number="2" Type="N">
 								<Text>
-									<![CDATA[PF525_V3(PF525_Object,IO_I_PF525_Object,IO_O_PF525_Object,Unit,PF525_Object.Reset);]]>
+									<![CDATA[PF525_V3(PF525_Object,IO_I_PF525_Object,IO_O_PF525_Object,Unit,EquipmentModule.Reset_Signal);]]>
 								</Text>
 							</Rung>
 							<Rung Number="3" Type="N">

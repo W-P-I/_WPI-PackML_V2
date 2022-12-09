@@ -1301,7 +1301,7 @@ SIMULATIE_ENABLE, if this is set to (TRUE/1) the scaling will be ignored and the
 							<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
 						</Data>
 					</Tag>
-					<Tag Name="Tanklevel" TagType="Base" DataType="HMI_IA_Sensor" Constant="false" ExternalAccess="Read/Write">
+					<Tag Name="Tanklevel" TagType="Base" DataType="HMI_IA_Sensor" Usage="Public" Constant="false" ExternalAccess="Read/Write">
 						<Data Format="L5K">
 							<![CDATA[[1,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000
 		,0.00000000e+000,2.80000000e+001,0,0,0.00000000e+000,[1,0.00000000e+000,0.00000000e+000,0.00000000e+000
@@ -1368,7 +1368,7 @@ SIMULATIE_ENABLE, if this is set to (TRUE/1) the scaling will be ignored and the
 						<RLLContent>
 							<Rung Number="0" Type="N">
 								<Text>
-									<![CDATA[HMI_IA_Sensor(Tanklevel,dscript_parameter_Tanklevel[0].Value,dscript_parameter_Tanklevel[1].Value,dscript_parameter_Tanklevel[2].Value,dscript_parameter_Tanklevel[3].Value,dscript_parameter_Tanklevel[4].Value,dscript_parameter_Tanklevel[5].Value,IO_Tanklevel,Tanklevel.reset);]]>
+									<![CDATA[HMI_IA_Sensor(Tanklevel,dscript_parameter_Tanklevel[0].Value,dscript_parameter_Tanklevel[1].Value,dscript_parameter_Tanklevel[2].Value,dscript_parameter_Tanklevel[3].Value,dscript_parameter_Tanklevel[4].Value,dscript_parameter_Tanklevel[5].Value,IO_Tanklevel,EquipmentModule.Reset_Signal);]]>
 								</Text>
 							</Rung>
 							<Rung Number="1" Type="N">

@@ -5330,7 +5330,7 @@ if valve has no feedback use Valve_Out tag]]>
 						</Data>
 					</Tag>
 					<Tag Name="Unit" TagType="Alias" AliasFor="\Unit1_Aerator_Obj_Model.PackML" ExternalAccess="Read/Write"/>
-					<Tag Name="NAAM_ValveObject" TagType="Base" DataType="Valve_V2" Constant="false" ExternalAccess="Read/Write">
+					<Tag Name="NAAM_ValveObject" TagType="Base" DataType="Valve_V2" Usage="Public" Constant="false" ExternalAccess="Read/Write">
 						<Data Format="L5K">
 							<![CDATA[[3083,0,1,[[0,250,0],[-1610603106,250,250]]]]]>
 						</Data>
@@ -5377,7 +5377,7 @@ if valve has no feedback use Valve_Out tag]]>
 							</Rung>
 							<Rung Number="1" Type="N">
 								<Text>
-									<![CDATA[XIC(NAAM_ValveObject.Reset)OTE(NAAM_ValveObject.Reset);]]>
+									<![CDATA[XIC(EquipmentModule.Reset_Signal)OTE(NAAM_ValveObject.Reset);]]>
 								</Text>
 							</Rung>
 							<Rung Number="2" Type="N">
