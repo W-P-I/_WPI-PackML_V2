@@ -173,5 +173,13 @@ namespace GEM
             Build_EM_Save form = new Build_EM_Save();
             form.Show();
         }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            CM_id = "Guardswitch";
+            ControlModule_Guardswitch form = new ControlModule_Guardswitch();
+            form.Show();
+
+        }
     }
 }

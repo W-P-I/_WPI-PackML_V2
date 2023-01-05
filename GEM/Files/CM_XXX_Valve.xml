@@ -18,7 +18,7 @@
 			<DataType Name="CntDescrip" Family="NoFamily" Class="User">
 				<Members>
 					<Member Name="ID" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
-					<Member Name="Name" DataType="STRING_16" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+					<Member Name="Name" DataType="STRING" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
 					<Member Name="Unit" DataType="STRING_08" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
 					<Member Name="Count" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
 					<Member Name="AccCount" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
@@ -34,7 +34,7 @@
 							<![CDATA[ID value of Parameter]]>
 						</Description>
 					</Member>
-					<Member Name="Name" DataType="STRING_16" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+					<Member Name="Name" DataType="STRING" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
 						<Description>
 							<![CDATA[Parameter name]]>
 						</Description>
@@ -5259,9 +5259,9 @@ if valve has no feedback use Valve_Out tag]]>
 								<Element Index="[0]">
 									<Structure DataType="Descriptor">
 										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
-										<StructureMember Name="Name" DataType="STRING_16">
+										<StructureMember Name="Name" DataType="STRING">
 											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="8"/>
-											<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
 												<![CDATA['NO or NC']]>
 											</DataValueMember>
 										</StructureMember>
@@ -5277,9 +5277,9 @@ if valve has no feedback use Valve_Out tag]]>
 								<Element Index="[1]">
 									<Structure DataType="Descriptor">
 										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
-										<StructureMember Name="Name" DataType="STRING_16">
+										<StructureMember Name="Name" DataType="STRING">
 											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="15"/>
-											<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
 												<![CDATA['Retain by fault']]>
 											</DataValueMember>
 										</StructureMember>
@@ -5295,9 +5295,9 @@ if valve has no feedback use Valve_Out tag]]>
 								<Element Index="[2]">
 									<Structure DataType="Descriptor">
 										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
-										<StructureMember Name="Name" DataType="STRING_16">
+										<StructureMember Name="Name" DataType="STRING">
 											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="12"/>
-											<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
 												<![CDATA['Use Feedback']]>
 											</DataValueMember>
 										</StructureMember>

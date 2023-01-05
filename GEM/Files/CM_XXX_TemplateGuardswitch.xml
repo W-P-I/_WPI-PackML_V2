@@ -1,0 +1,342 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="33.00" TargetName="CM_000_TemplateGuardSwitch" TargetType="Routine" TargetSubType="RLL" TargetClass="Standard" ContainsContext="true" ExportDate="Mon Dec 12 14:07:48 2022" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+	<Controller Use="Context" Name="TestSamlip">
+		<DataTypes Use="Context">
+		</DataTypes>
+		<AddOnInstructionDefinitions Use="Context">
+			<AddOnInstructionDefinition Name="PILZ_GuardSwitch" Class="Standard" Revision="1.0" ExecutePrescan="true" ExecutePostscan="false" ExecuteEnableInFalse="false" CreatedDate="2021-11-18T09:26:51.257Z" CreatedBy="WPI\tom.reit" EditedDate="2022-11-17T09:02:54.316Z" EditedBy="WPI\tom.reit" SoftwareRevision="v33.00"
+>
+				<Description>
+					<![CDATA[based on model 21904-3FR-03 PSEN sl-0.5p]]>
+				</Description>
+				<Parameters>
+					<Parameter Name="EnableIn" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+						<Description>
+							<![CDATA[Enable Input - System Defined Parameter]]>
+						</Description>
+					</Parameter>
+					<Parameter Name="EnableOut" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+						<Description>
+							<![CDATA[Enable Output - System Defined Parameter]]>
+						</Description>
+					</Parameter>
+					<Parameter Name="I_DoorClosed" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Y32 door is closed]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[1]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="O_LockDoor" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[signal to lock door 
+S31]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="I_Doorlocked_S1" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[12]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="I_Doorlocked_S2" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[22]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="DoorLocked" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[door is locked and feedback signals are OK]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[1]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="Faulted" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Something went verie vrong much problem many oplossingen zoeken]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="DoorClosed" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Door is closed]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="DoorOpen" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Door is open]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="HMI_Request_LockDoor" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[user requests to lock the door]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="Reset" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[reset pilz logic]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="OEM_Force_Open" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Simulates tank door locked & Closed]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[1]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
+						</DefaultData>
+					</Parameter>
+				</Parameters>
+				<LocalTags>
+					<LocalTag Name="T_DetectDoorClosed" DataType="TIMER" ExternalAccess="None">
+						<DefaultData Format="L5K">
+							<![CDATA[[0,500,0]]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<Structure DataType="TIMER">
+								<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="500"/>
+								<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
+								<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+							</Structure>
+						</DefaultData>
+					</LocalTag>
+					<LocalTag Name="T_wrk_LockingTime" DataType="TIMER" ExternalAccess="None">
+						<DefaultData Format="L5K">
+							<![CDATA[[0,500,0]]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<Structure DataType="TIMER">
+								<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="500"/>
+								<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
+								<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+							</Structure>
+						</DefaultData>
+					</LocalTag>
+					<LocalTag Name="cnf_Hold_lock_In_Fault" DataType="BOOL" Radix="Decimal" ExternalAccess="None">
+						<Description>
+							<![CDATA[config, hold lock when faulted. only lets go of lock once reset has been pressed. ]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[1]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
+						</DefaultData>
+					</LocalTag>
+				</LocalTags>
+				<Routines>
+					<Routine Name="Logic" Type="RLL">
+						<RLLContent>
+							<Rung Number="0" Type="N">
+								<Comment>
+									<![CDATA[Check if door is closed longer then 500 ms
+if so door may be locked]]>
+								</Comment>
+								<Text>
+									<![CDATA[[XIC(I_DoorClosed) TON(T_DetectDoorClosed,?,?) XIC(T_DetectDoorClosed.DN) ,XIC(OEM_Force_Open) ][OTE(DoorClosed) ,XIC(HMI_Request_LockDoor) XIO(O_LockDoor) XIO(Faulted) XIO(OEM_Force_Open) OTL(O_LockDoor) ];]]>
+								</Text>
+							</Rung>
+							<Rung Number="1" Type="N">
+								<Comment>
+									<![CDATA[invert door closed signal]]>
+								</Comment>
+								<Text>
+									<![CDATA[XIO(DoorClosed)XIO(OEM_Force_Open)OTE(DoorOpen);]]>
+								</Text>
+							</Rung>
+							<Rung Number="2" Type="N">
+								<Comment>
+									<![CDATA[in normal operation unlock can only be done if door was previous locked]]>
+								</Comment>
+								<Text>
+									<![CDATA[[XIO(HMI_Request_LockDoor) XIC(I_Doorlocked_S1) XIC(I_Doorlocked_S2) ,XIC(OEM_Force_Open) ]OTU(O_LockDoor);]]>
+								</Text>
+							</Rung>
+							<Rung Number="3" Type="N">
+								<Comment>
+									<![CDATA[Door is closed, door is locked ]]>
+								</Comment>
+								<Text>
+									<![CDATA[[XIC(I_Doorlocked_S1) XIC(I_Doorlocked_S2) XIC(O_LockDoor) ,XIC(OEM_Force_Open) ]OTE(DoorLocked);]]>
+								</Text>
+							</Rung>
+							<Rung Number="4" Type="N">
+								<Comment>
+									<![CDATA[if lock signal is set and feedback signals are not active in time set fault, this also prevents cable breakage]]>
+								</Comment>
+								<Text>
+									<![CDATA[XIC(O_LockDoor)TON(T_wrk_LockingTime,?,?)XIC(T_wrk_LockingTime.DN)[XIO(I_Doorlocked_S1) ,XIO(I_Doorlocked_S2) ]XIO(OEM_Force_Open)OTL(Faulted);]]>
+								</Text>
+							</Rung>
+							<Rung Number="5" Type="N">
+								<Text>
+									<![CDATA[[XIC(Faulted) XIC(cnf_Hold_lock_In_Fault) XIC(Reset) OTU(O_LockDoor) OTU(Faulted) ,XIC(Faulted) XIO(cnf_Hold_lock_In_Fault) OTU(O_LockDoor) XIC(Reset) OTU(Faulted) ];]]>
+								</Text>
+							</Rung>
+						</RLLContent>
+					</Routine>
+					<Routine Name="Prescan" Type="ST">
+						<STContent>
+							<Line Number="0">
+								<![CDATA[T_DetectDoorClosed.PRE	:=	500;]]>
+							</Line>
+							<Line Number="1">
+								<![CDATA[T_wrk_LockingTime.PRE	:=	1000;]]>
+							</Line>
+							<Line Number="2">
+								<![CDATA[cnf_Hold_lock_In_Fault 	:= 	0;]]>
+							</Line>
+							<Line Number="3">
+								<![CDATA[OEM_Force_Open			:= 	0;]]>
+							</Line>
+						</STContent>
+					</Routine>
+				</Routines>
+			</AddOnInstructionDefinition>
+		</AddOnInstructionDefinitions>
+		<Programs Use="Context">
+			<Program Use="Context" Name="Unit1_Aerator_EM01_Buffertank" Class="Standard">
+				<Tags Use="Context">
+					<Tag Name="IO_TemplateGuardswitch_DoorClosed" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+						<Data Format="L5K">
+							<![CDATA[0]]>
+						</Data>
+						<Data Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</Data>
+					</Tag>
+					<Tag Name="IO_TemplateGuardswitch_LockDoor" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+						<Data Format="L5K">
+							<![CDATA[0]]>
+						</Data>
+						<Data Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</Data>
+					</Tag>
+					<Tag Name="IO_TemplateGuardswitch_S1" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+						<Data Format="L5K">
+							<![CDATA[0]]>
+						</Data>
+						<Data Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</Data>
+					</Tag>
+					<Tag Name="IO_TemplateGuardswitch_S2" TagType="Base" DataType="BOOL" Radix="Decimal" Constant="false" ExternalAccess="Read/Write">
+						<Data Format="L5K">
+							<![CDATA[0]]>
+						</Data>
+						<Data Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</Data>
+					</Tag>
+					<Tag Name="TemplateGuardswitch" TagType="Base" DataType="PILZ_GuardSwitch" Usage="Public" Constant="false" ExternalAccess="Read/Write">
+						<Data Format="L5K">
+							<![CDATA[[515,[0,500,0],[0,1000,0]]]]>
+						</Data>
+						<Data Format="Decorated">
+							<Structure DataType="PILZ_GuardSwitch">
+								<DataValueMember Name="EnableIn" DataType="BOOL" Value="1"/>
+								<DataValueMember Name="EnableOut" DataType="BOOL" Value="1"/>
+								<DataValueMember Name="I_DoorClosed" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="O_LockDoor" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="I_Doorlocked_S1" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="I_Doorlocked_S2" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="DoorLocked" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="Faulted" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="DoorClosed" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="DoorOpen" DataType="BOOL" Value="1"/>
+								<DataValueMember Name="HMI_Request_LockDoor" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="Reset" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="OEM_Force_Open" DataType="BOOL" Value="0"/>
+							</Structure>
+						</Data>
+					</Tag>
+				</Tags>
+				<Routines Use="Context">
+					<Routine Use="Target" Name="CM_000_TemplateGuardSwitch" Type="RLL">
+						<RLLContent>
+							<Rung Number="0" Type="N">
+								<Text>
+									<![CDATA[PILZ_GuardSwitch(TemplateGuardswitch,IO_TemplateGuardswitch_DoorClosed,IO_TemplateGuardswitch_LockDoor,IO_TemplateGuardswitch_S1,IO_TemplateGuardswitch_S2,TemplateGuardswitch.Reset);]]>
+								</Text>
+							</Rung>
+							<Rung Number="1" Type="N">
+								<Comment>
+									<![CDATA[ 
+ 
+Descriptor tags 
+ 
+ 
+]]>
+								</Comment>
+								<Text>
+									<![CDATA[NOP();]]>
+								</Text>
+							</Rung>
+						</RLLContent>
+					</Routine>
+				</Routines>
+			</Program>
+		</Programs>
+	</Controller>
+</RSLogix5000Content>

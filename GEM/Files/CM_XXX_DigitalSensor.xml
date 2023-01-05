@@ -9,7 +9,7 @@
 							<![CDATA[ID value of Parameter]]>
 						</Description>
 					</Member>
-					<Member Name="Name" DataType="STRING_16" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+					<Member Name="Name" DataType="STRING" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
 						<Description>
 							<![CDATA[Parameter name]]>
 						</Description>
@@ -427,9 +427,9 @@
 								<Element Index="[0]">
 									<Structure DataType="Descriptor">
 										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
-										<StructureMember Name="Name" DataType="STRING_16">
+										<StructureMember Name="Name" DataType="STRING">
 											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="13"/>
-											<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
 												<![CDATA['Detect 1 or 0']]>
 											</DataValueMember>
 										</StructureMember>
@@ -445,9 +445,9 @@
 								<Element Index="[1]">
 									<Structure DataType="Descriptor">
 										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
-										<StructureMember Name="Name" DataType="STRING_16">
+										<StructureMember Name="Name" DataType="STRING">
 											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="10"/>
-											<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
 												<![CDATA['Simulation']]>
 											</DataValueMember>
 										</StructureMember>
@@ -463,9 +463,9 @@
 								<Element Index="[2]">
 									<Structure DataType="Descriptor">
 										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
-										<StructureMember Name="Name" DataType="STRING_16">
+										<StructureMember Name="Name" DataType="STRING">
 											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="16"/>
-											<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
 												<![CDATA['Simulation Value']]>
 											</DataValueMember>
 										</StructureMember>
@@ -481,9 +481,9 @@
 								<Element Index="[3]">
 									<Structure DataType="Descriptor">
 										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
-										<StructureMember Name="Name" DataType="STRING_16">
+										<StructureMember Name="Name" DataType="STRING">
 											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="9"/>
-											<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
 												<![CDATA['Use Alarm']]>
 											</DataValueMember>
 										</StructureMember>
@@ -499,9 +499,9 @@
 								<Element Index="[4]">
 									<Structure DataType="Descriptor">
 										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
-										<StructureMember Name="Name" DataType="STRING_16">
+										<StructureMember Name="Name" DataType="STRING">
 											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="12"/>
-											<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
 												<![CDATA['Minimal time']]>
 											</DataValueMember>
 										</StructureMember>
@@ -517,9 +517,9 @@
 								<Element Index="[5]">
 									<Structure DataType="Descriptor">
 										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
-										<StructureMember Name="Name" DataType="STRING_16">
+										<StructureMember Name="Name" DataType="STRING">
 											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="12"/>
-											<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
 												<![CDATA['Maximal time']]>
 											</DataValueMember>
 										</StructureMember>
@@ -535,9 +535,9 @@
 								<Element Index="[6]">
 									<Structure DataType="Descriptor">
 										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
-										<StructureMember Name="Name" DataType="STRING_16">
+										<StructureMember Name="Name" DataType="STRING">
 											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="12"/>
-											<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
 												<![CDATA['Holding time']]>
 											</DataValueMember>
 										</StructureMember>

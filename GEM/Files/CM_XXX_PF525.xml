@@ -18,7 +18,7 @@
 			<DataType Name="CntDescrip" Family="NoFamily" Class="User">
 				<Members>
 					<Member Name="ID" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
-					<Member Name="Name" DataType="STRING_16" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+					<Member Name="Name" DataType="STRING" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
 					<Member Name="Unit" DataType="STRING_08" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
 					<Member Name="Count" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
 					<Member Name="AccCount" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
@@ -34,7 +34,7 @@
 							<![CDATA[ID value of Parameter]]>
 						</Description>
 					</Member>
-					<Member Name="Name" DataType="STRING_16" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+					<Member Name="Name" DataType="STRING" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
 						<Description>
 							<![CDATA[Parameter name]]>
 						</Description>
@@ -5619,7 +5619,7 @@ resetting drive will only effect the AOI while drive is faulted]]>
 		<Programs Use="Context">
 			<Program Use="Context" Name="Unit1_Aerator_EM02_Feeding" Class="Standard">
 				<Tags Use="Context">
-					<Tag Name="dscript_parameter_Object" TagType="Base" DataType="Descriptor" Dimensions="4" Constant="false" ExternalAccess="Read/Write">
+					<Tag Name="dscript_parameter_Object" TagType="Base" DataType="Descriptor" Dimensions="4" Usage="Public" Constant="false" ExternalAccess="Read/Write">
 						<Data Format="L5K">
 							<![CDATA[[[0,[12,'MaxFrequenty$00$00$00$00'],[2,'hz$00$00$00$00$00$00'],5.00000000e+001],[0,[12,'MinFrequenty$00$00$00$00'
 		],[2,'hz$00$00$00$00$00$00'],0.00000000e+000],[0,[8,'MaxSpeed$00$00$00$00$00$00$00$00'],[1,'%$00$00$00$00$00$00$00'
@@ -5631,9 +5631,9 @@ resetting drive will only effect the AOI while drive is faulted]]>
 								<Element Index="[0]">
 									<Structure DataType="Descriptor">
 										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
-										<StructureMember Name="Name" DataType="STRING_16">
+										<StructureMember Name="Name" DataType="STRING">
 											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="12"/>
-											<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
 												<![CDATA['MaxFrequenty']]>
 											</DataValueMember>
 										</StructureMember>
@@ -5649,9 +5649,9 @@ resetting drive will only effect the AOI while drive is faulted]]>
 								<Element Index="[1]">
 									<Structure DataType="Descriptor">
 										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
-										<StructureMember Name="Name" DataType="STRING_16">
+										<StructureMember Name="Name" DataType="STRING">
 											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="12"/>
-											<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
 												<![CDATA['MinFrequenty']]>
 											</DataValueMember>
 										</StructureMember>
@@ -5667,9 +5667,9 @@ resetting drive will only effect the AOI while drive is faulted]]>
 								<Element Index="[2]">
 									<Structure DataType="Descriptor">
 										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
-										<StructureMember Name="Name" DataType="STRING_16">
+										<StructureMember Name="Name" DataType="STRING">
 											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="8"/>
-											<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
 												<![CDATA['MaxSpeed']]>
 											</DataValueMember>
 										</StructureMember>
@@ -5685,9 +5685,9 @@ resetting drive will only effect the AOI while drive is faulted]]>
 								<Element Index="[3]">
 									<Structure DataType="Descriptor">
 										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
-										<StructureMember Name="Name" DataType="STRING_16">
+										<StructureMember Name="Name" DataType="STRING">
 											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="8"/>
-											<DataValueMember Name="DATA" DataType="STRING_16" Radix="ASCII">
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
 												<![CDATA['MinSpeed']]>
 											</DataValueMember>
 										</StructureMember>
