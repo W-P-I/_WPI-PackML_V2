@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="33.00" TargetName="Name1_PH_Name2" TargetType="Routine" TargetSubType="RLL" TargetClass="Standard" ContainsContext="true" ExportDate="Fri Feb 10 11:09:01 2023" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="33.00" TargetName="Name1_PH_Name2" TargetType="Routine" TargetSubType="RLL" TargetClass="Standard" ContainsContext="true" ExportDate="Fri Feb 10 10:49:30 2023" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
 	<Controller Use="Context" Name="BatterDepositor">
 		<DataTypes Use="Context">
 			<DataType Name="PhaseObject" Family="NoFamily" Class="User">
@@ -516,34 +516,6 @@
 							</Structure>
 						</Data>
 					</Tag>
-					<Tag Name="Req_OpenRoute_Name1Name2" TagType="Base" DataType="BOOL" Radix="Decimal" Usage="Public" Constant="false" ExternalAccess="Read/Write">
-						<Description>
-							<![CDATA[Request to open route]]>
-						</Description>
-						<Data Format="L5K">
-							<![CDATA[0]]>
-						</Data>
-						<Data Format="Decorated">
-							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
-						</Data>
-					</Tag>
-					<Tag Name="T_Name1Name2_timeout" TagType="Base" DataType="TIMER" Constant="false" ExternalAccess="Read/Write">
-						<Description>
-							<![CDATA[if filling takes longer then X time set error]]>
-						</Description>
-						<Data Format="L5K">
-							<![CDATA[[2623608,5000,0]]]>
-						</Data>
-						<Data Format="Decorated">
-							<Structure DataType="TIMER">
-								<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="5000"/>
-								<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
-								<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
-								<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
-								<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
-							</Structure>
-						</Data>
-					</Tag>
 				</Tags>
 				<Routines Use="Context">
 					<Routine Use="Target" Name="Name1_PH_Name2" Type="RLL">
@@ -558,34 +530,60 @@
 							</Rung>
 							<Rung Number="1" Type="N">
 								<Comment>
-									<![CDATA[Phase faulted]]>
+									<![CDATA[
+ Phase 
+In / Out
+ ]]>
 								</Comment>
 								<Text>
-									<![CDATA[XIC(Name1_Name2.Status.EN)[XIC(Req_OpenRoute_Name1Name2) XIO(Name1_Name2.Status.PC) TON(T_Name1Name2_timeout,?,?) XIC(T_Name1Name2_timeout.DN) ,XIC(Name1_Name2.Status.ER) ]OTE(Name1_Name2.Status.ER);]]>
+									<![CDATA[NOP();]]>
 								</Text>
 							</Rung>
 							<Rung Number="2" Type="N">
+								<Text>
+									<![CDATA[AFI()NOP();]]>
+								</Text>
+							</Rung>
+							<Rung Number="3" Type="N">
 								<Comment>
-									<![CDATA[Phase is opening route]]>
+									<![CDATA[
+Logic
+ ]]>
+								</Comment>
+								<Text>
+									<![CDATA[NOP();]]>
+								</Text>
+							</Rung>
+							<Rung Number="4" Type="N">
+								<Text>
+									<![CDATA[AFI()NOP();]]>
+								</Text>
+							</Rung>
+							<Rung Number="5" Type="N">
+								<Comment>
+									<![CDATA[Phase faulted]]>
+								</Comment>
+								<Text>
+									<![CDATA[XIC(Name1_Name2.PhaseHandler.Sts_Execute)AFI()OTE(Name1_Name2.Status.ER);]]>
+								</Text>
+							</Rung>
+							<Rung Number="6" Type="N">
+								<Comment>
+									<![CDATA[Phase is in proces]]>
 								</Comment>
 								<Text>
 									<![CDATA[XIC(Name1_Name2.Status.EN)OTE(Name1_Name2.Status.IP);]]>
 								</Text>
 							</Rung>
-							<Rung Number="3" Type="N">
-								<Text>
-									<![CDATA[XIC(Name1_Name2.PhaseHandler.Sts_Execute)OTE(Req_OpenRoute_Name1Name2);]]>
-								</Text>
-							</Rung>
-							<Rung Number="4" Type="N">
+							<Rung Number="7" Type="N">
 								<Comment>
-									<![CDATA[Route is open]]>
+									<![CDATA[Proces complete]]>
 								</Comment>
 								<Text>
-									<![CDATA[XIC(Req_OpenRoute_Name1Name2)OTE(Name1_Name2.Status.PC);]]>
+									<![CDATA[XIC(Name1_Name2.PhaseHandler.Sts_Execute)OTE(Name1_Name2.Status.PC);]]>
 								</Text>
 							</Rung>
-							<Rung Number="5" Type="N">
+							<Rung Number="8" Type="N">
 								<Comment>
 									<![CDATA[Feedback for user
 ]]>
@@ -594,19 +592,9 @@
 									<![CDATA[NOP();]]>
 								</Text>
 							</Rung>
-							<Rung Number="6" Type="N">
+							<Rung Number="9" Type="N">
 								<Text>
-									<![CDATA[XIC(Name1_Name2.Status.EN)XIC(Req_OpenRoute_Name1Name2)MOV('Opening Route',Name1_Name2.Status.CurrentAction);]]>
-								</Text>
-							</Rung>
-							<Rung Number="7" Type="N">
-								<Text>
-									<![CDATA[XIC(Name1_Name2.Status.EN)XIC(Name1_Name2.Status.PC)MOV('Route Opened',Name1_Name2.Status.CurrentAction);]]>
-								</Text>
-							</Rung>
-							<Rung Number="8" Type="N">
-								<Text>
-									<![CDATA[XIC(Name1_Name2.Status.EN)XIC(Name1_Name2.Status.ER)MOV('Route Failed, Check feedback',Name1_Name2.Status.CurrentAction);]]>
+									<![CDATA[XIC(Name1_Name2.Status.EN)MOV('',Name1_Name2.Status.CurrentAction);]]>
 								</Text>
 							</Rung>
 						</RLLContent>
