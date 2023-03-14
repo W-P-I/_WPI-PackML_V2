@@ -1,0 +1,1742 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="33.00" TargetName="WTU_X" TargetType="Routine" TargetSubType="RLL" TargetClass="Standard" ContainsContext="true" ExportDate="Tue Mar 14 09:29:50 2023" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+	<Controller Use="Context" Name="BatterDepositor">
+		<DataTypes Use="Context">
+			<DataType Name="Descriptor" Family="NoFamily" Class="User">
+				<Members>
+					<Member Name="ID" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[ID value of Parameter]]>
+						</Description>
+					</Member>
+					<Member Name="Name" DataType="STRING" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Parameter name]]>
+						</Description>
+					</Member>
+					<Member Name="Unit" DataType="STRING_08" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Unit of measure of the parameter]]>
+						</Description>
+					</Member>
+					<Member Name="Value" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Parameter Values]]>
+						</Description>
+					</Member>
+				</Members>
+				<Dependencies>
+					<Dependency Type="DataType" Name="STRING_08"/>
+				</Dependencies>
+			</DataType>
+			<DataType Name="STRING_08" Family="StringFamily" Class="User">
+				<Description>
+					<![CDATA[only 8 chars]]>
+				</Description>
+				<Members>
+					<Member Name="LEN" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+					<Member Name="DATA" DataType="SINT" Dimension="8" Radix="ASCII" Hidden="false" ExternalAccess="Read/Write"/>
+				</Members>
+			</DataType>
+		</DataTypes>
+		<AddOnInstructionDefinitions Use="Context">
+			<AddOnInstructionDefinition Name="WaterCircuit" Class="Standard" Revision="1.0" ExecutePrescan="false" ExecutePostscan="false" ExecuteEnableInFalse="false" CreatedDate="2023-03-13T11:33:26.034Z" CreatedBy="WPI\tom.reit" EditedDate="2023-03-13T15:00:54.092Z" EditedBy="WPI\tom.reit" SoftwareRevision="v33.00"
+>
+				<Description>
+					<![CDATA[Closed water circuit based on Micro820]]>
+				</Description>
+				<Parameters>
+					<Parameter Name="EnableIn" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+						<Description>
+							<![CDATA[Enable Input - System Defined Parameter]]>
+						</Description>
+					</Parameter>
+					<Parameter Name="EnableOut" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+						<Description>
+							<![CDATA[Enable Output - System Defined Parameter]]>
+						</Description>
+					</Parameter>
+					<Parameter Name="Read_Element" TagType="Base" DataType="LREAL" Dimensions="40" Usage="InOut" Radix="Float" Required="true" Visible="true" Constant="false"/>
+					<Parameter Name="Msg_Read" TagType="Base" DataType="MESSAGE" Usage="InOut" Required="true" Visible="true">
+						<Description>
+							<![CDATA[Message to read object]]>
+						</Description>
+					</Parameter>
+					<Parameter Name="Write_Element" TagType="Base" DataType="LREAL" Dimensions="40" Usage="InOut" Radix="Float" Required="true" Visible="true" Constant="false"/>
+					<Parameter Name="Msg_Write" TagType="Base" DataType="MESSAGE" Usage="InOut" Required="true" Visible="true">
+						<Description>
+							<![CDATA[Message to read object]]>
+						</Description>
+					</Parameter>
+					<Parameter Name="Reset" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Reset WTU C1&C2 on falling edge of reset signal]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C1_Select_Mode" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[1 = Automatic
+0 = Manual]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C1_Start" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[0 = OFF
+1 = ON]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C1_ManualStart_CP" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[0 = OFF
+1 = ON]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C1_ManualStart_HE" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[0 = OFF
+1 = ON]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C1_ManualStart_V1" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[0 = OFF
+1 = ON]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C1_ManualStart_V2" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[0 = OFF
+1 = ON]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C1_PID_CycleTime" TagType="Base" DataType="DINT" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Cycle time for SSR]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C1_Kc" TagType="Base" DataType="LREAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Proportional and Integral are dependent on this gain. (>= 0.0001).
+
+Increasing Kc improves response time but also increases overshoot and oscillation of the PID.]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0.0000000000000000e+000]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="LREAL" Radix="Float" Value="0.0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C1_Ti" TagType="Base" DataType="LREAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Time integral constant in seconds (>= 0.0001).
+
+Increasing Ti decreases the overshoot and oscillation of the PID.]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0.0000000000000000e+000]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="LREAL" Radix="Float" Value="0.0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C1_Td" TagType="Base" DataType="LREAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Time derivative constant in seconds (>= 0.0).
+
+When Td equals 0, there is no derivative action and PID becomes a PI controller.
+
+Increasing Td reduces the overshot and removes the oscillation of the PID controller.]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0.0000000000000000e+000]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="LREAL" Radix="Float" Value="0.0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C1_FC" TagType="Base" DataType="LREAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[Filter constant (>= 0.0). Recommended range for FC is 0 to 20.
+
+Increasing FC smooths the response of the PID controller.]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0.0000000000000000e+000]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="LREAL" Radix="Float" Value="0.0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C1_PID_Setpoint" TagType="Base" DataType="LREAL" Usage="Input" Radix="Float" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<DefaultData Format="L5K">
+							<![CDATA[0.0000000000000000e+000]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="LREAL" Radix="Float" Value="0.0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C1_PID_HandValue" TagType="Base" DataType="LREAL" Usage="Input" Radix="Float" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<DefaultData Format="L5K">
+							<![CDATA[0.0000000000000000e+000]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="LREAL" Radix="Float" Value="0.0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C2_Select_Mode" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C2_Start" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C2_ManualStart_CP" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C2_ManualStart_HE" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C2_ManualStart_V1" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C2_ManualStart_V2" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C2_PID_CycleTime" TagType="Base" DataType="DINT" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C2_Kc" TagType="Base" DataType="LREAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+						<DefaultData Format="L5K">
+							<![CDATA[0.0000000000000000e+000]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="LREAL" Radix="Float" Value="0.0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C2_Ti" TagType="Base" DataType="LREAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+						<DefaultData Format="L5K">
+							<![CDATA[0.0000000000000000e+000]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="LREAL" Radix="Float" Value="0.0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C2_Td" TagType="Base" DataType="LREAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+						<DefaultData Format="L5K">
+							<![CDATA[0.0000000000000000e+000]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="LREAL" Radix="Float" Value="0.0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C2_FC" TagType="Base" DataType="LREAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+						<DefaultData Format="L5K">
+							<![CDATA[0.0000000000000000e+000]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="LREAL" Radix="Float" Value="0.0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C2_PID_Setpoint" TagType="Base" DataType="LREAL" Usage="Input" Radix="Float" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<DefaultData Format="L5K">
+							<![CDATA[0.0000000000000000e+000]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="LREAL" Radix="Float" Value="0.0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C2_PID_HandValue" TagType="Base" DataType="LREAL" Usage="Input" Radix="Float" Required="false" Visible="true" ExternalAccess="Read/Write">
+						<DefaultData Format="L5K">
+							<![CDATA[0.0000000000000000e+000]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="LREAL" Radix="Float" Value="0.0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C1_Temperature" TagType="Base" DataType="REAL" Usage="Output" Radix="Float" Required="false" Visible="true" ExternalAccess="Read Only">
+						<DefaultData Format="L5K">
+							<![CDATA[0.00000000e+000]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C1_PID_OUTPUT" TagType="Base" DataType="REAL" Usage="Output" Radix="Float" Required="false" Visible="true" ExternalAccess="Read Only">
+						<DefaultData Format="L5K">
+							<![CDATA[0.00000000e+000]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="ALARM_C1_PressureFaulted" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="ALARM_C1_Overload_CirculationPump" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="ALARM_C1_Overload_Heatingelment" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="ALARM_C1_Max_TemperatureSwitch" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="ALARM_C1_TemperatureSensorLost" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C2_Temperature" TagType="Base" DataType="REAL" Usage="Output" Radix="Float" Required="false" Visible="true" ExternalAccess="Read Only">
+						<DefaultData Format="L5K">
+							<![CDATA[0.00000000e+000]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="C2_PID_OUTPUT" TagType="Base" DataType="REAL" Usage="Output" Radix="Float" Required="false" Visible="true" ExternalAccess="Read Only">
+						<DefaultData Format="L5K">
+							<![CDATA[0.00000000e+000]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="ALARM_C2_PressureFaulted" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="ALARM_C2_Overload_CirculationPump" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="ALARM_C2_Overload_Heatingelment" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="ALARM_C2_Max_TemperatureSwitch" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+					<Parameter Name="ALARM_C2_TemperatureSensorLost" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</Parameter>
+				</Parameters>
+				<LocalTags>
+					<LocalTag Name="RefreshRate" DataType="FBD_TIMER" ExternalAccess="None">
+						<Description>
+							<![CDATA[refreshrate timer]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[[1,0,0,0,0,0,0,0,0,4,0,0]]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<Structure DataType="FBD_TIMER">
+								<DataValueMember Name="EnableIn" DataType="BOOL" Value="1"/>
+								<DataValueMember Name="TimerEnable" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="0"/>
+								<DataValueMember Name="Reset" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="EnableOut" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
+								<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="Status" DataType="DINT" Radix="Hex" Value="16#0000_0000"/>
+								<DataValueMember Name="InstructFault" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="PresetInv" DataType="BOOL" Value="0"/>
+							</Structure>
+						</DefaultData>
+					</LocalTag>
+					<LocalTag Name="wrk_conversion" DataType="DINT" Dimensions="40" Radix="Decimal" ExternalAccess="None">
+						<DefaultData Format="L5K">
+							<![CDATA[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<Array DataType="DINT" Dimensions="40" Radix="Decimal">
+								<Element Index="[0]" Value="0"/>
+								<Element Index="[1]" Value="0"/>
+								<Element Index="[2]" Value="0"/>
+								<Element Index="[3]" Value="0"/>
+								<Element Index="[4]" Value="0"/>
+								<Element Index="[5]" Value="0"/>
+								<Element Index="[6]" Value="0"/>
+								<Element Index="[7]" Value="0"/>
+								<Element Index="[8]" Value="0"/>
+								<Element Index="[9]" Value="0"/>
+								<Element Index="[10]" Value="0"/>
+								<Element Index="[11]" Value="0"/>
+								<Element Index="[12]" Value="0"/>
+								<Element Index="[13]" Value="0"/>
+								<Element Index="[14]" Value="0"/>
+								<Element Index="[15]" Value="0"/>
+								<Element Index="[16]" Value="0"/>
+								<Element Index="[17]" Value="0"/>
+								<Element Index="[18]" Value="0"/>
+								<Element Index="[19]" Value="0"/>
+								<Element Index="[20]" Value="0"/>
+								<Element Index="[21]" Value="0"/>
+								<Element Index="[22]" Value="0"/>
+								<Element Index="[23]" Value="0"/>
+								<Element Index="[24]" Value="0"/>
+								<Element Index="[25]" Value="0"/>
+								<Element Index="[26]" Value="0"/>
+								<Element Index="[27]" Value="0"/>
+								<Element Index="[28]" Value="0"/>
+								<Element Index="[29]" Value="0"/>
+								<Element Index="[30]" Value="0"/>
+								<Element Index="[31]" Value="0"/>
+								<Element Index="[32]" Value="0"/>
+								<Element Index="[33]" Value="0"/>
+								<Element Index="[34]" Value="0"/>
+								<Element Index="[35]" Value="0"/>
+								<Element Index="[36]" Value="0"/>
+								<Element Index="[37]" Value="0"/>
+								<Element Index="[38]" Value="0"/>
+								<Element Index="[39]" Value="0"/>
+							</Array>
+						</DefaultData>
+					</LocalTag>
+					<LocalTag Name="i" DataType="SINT" Radix="Decimal" ExternalAccess="None">
+						<Description>
+							<![CDATA[local index num]]>
+						</Description>
+						<DefaultData Format="L5K">
+							<![CDATA[0]]>
+						</DefaultData>
+						<DefaultData Format="Decorated">
+							<DataValue DataType="SINT" Radix="Decimal" Value="0"/>
+						</DefaultData>
+					</LocalTag>
+				</LocalTags>
+				<Routines>
+					<Routine Name="Logic" Type="ST">
+						<Description>
+							<![CDATA[Closed water circuit based on Micro820]]>
+						</Description>
+						<STContent>
+							<Line Number="0">
+								<![CDATA[////////////////////////////////////////////////////////////]]>
+							</Line>
+							<Line Number="1">
+								<![CDATA[//   Copyright (c)  ]]>
+							</Line>
+							<Line Number="2">
+								<![CDATA[//------------------------------------------------------------]]>
+							</Line>
+							<Line Number="3">
+								<![CDATA[//   Routine: WaterCircuit - Logic]]>
+							</Line>
+							<Line Number="4">
+								<![CDATA[//   Author: WPI\tom.reit]]>
+							</Line>
+							<Line Number="5">
+								<![CDATA[//   Created: 13-3-2023]]>
+							</Line>
+							<Line Number="6">
+								<![CDATA[//------------------------------------------------------------]]>
+							</Line>
+							<Line Number="7">
+								<![CDATA[//   Description:]]>
+							</Line>
+							<Line Number="8">
+								<![CDATA[//           Closed water circuit based on Micro820]]>
+							</Line>
+							<Line Number="9">
+								<![CDATA[//           ]]>
+							</Line>
+							<Line Number="10">
+								<![CDATA[//]]>
+							</Line>
+							<Line Number="11">
+								<![CDATA[//   History:]]>
+							</Line>
+							<Line Number="12">
+								<![CDATA[//]]>
+							</Line>
+							<Line Number="13">
+								<![CDATA[////////////////////////////////////////////////////////////]]>
+							</Line>
+							<Line Number="14">
+								<![CDATA[RefreshRate.EN:=1;]]>
+							</Line>
+							<Line Number="15">
+								<![CDATA[RefreshRate.PRE:=50;]]>
+							</Line>
+							<Line Number="16">
+								<![CDATA[RefreshRate.TimerEnable:=1;]]>
+							</Line>
+							<Line Number="17">
+								<![CDATA[RefreshRate.Reset:=RefreshRate.DN;]]>
+							</Line>
+							<Line Number="18">
+								<![CDATA[TONR(RefreshRate);]]>
+							</Line>
+							<Line Number="19">
+								<![CDATA[if RefreshRate.DN then]]>
+							</Line>
+							<Line Number="20">
+								<![CDATA[	MSG(Msg_Read);																	// Message to read object. CIP datatable read.]]>
+							</Line>
+							<Line Number="21">
+								<![CDATA[	MSG(Msg_Write);																	// Message to Write object. CIP datatable write.	]]>
+							</Line>
+							<Line Number="22">
+								<![CDATA[end_if;]]>
+							</Line>
+							<Line Number="23">
+								<![CDATA[for i := 0 to 40 do]]>
+							</Line>
+							<Line Number="24">
+								<![CDATA[	wrk_conversion[i]:=0;// clear old data]]>
+							</Line>
+							<Line Number="25">
+								<![CDATA[end_for;]]>
+							</Line>
+							<Line Number="26">
+								<![CDATA[#region InputData]]>
+							</Line>
+							<Line Number="27">
+								<![CDATA[	wrk_conversion[0].0			:=		Reset;						// Micro820 tag: HMI_I_Reset]]>
+							</Line>
+							<Line Number="28">
+								<![CDATA[	#region C1 data]]>
+							</Line>
+							<Line Number="29">
+								<![CDATA[		#region Convert InputData to LREAL]]>
+							</Line>
+							<Line Number="30">
+								<![CDATA[			wrk_conversion[1].0			:=		C1_Select_Mode;				// Micro820 tag: HMI_I_C1_Select_Mode]]>
+							</Line>
+							<Line Number="31">
+								<![CDATA[			wrk_conversion[2].0			:=		C1_Start;					// Micro820 tag: HMI_I_StartC1]]>
+							</Line>
+							<Line Number="32">
+								<![CDATA[			wrk_conversion[3].0			:=		C1_ManualStart_CP;			// Micro820 tag: HMI_I_C1_ManualStart_CP]]>
+							</Line>
+							<Line Number="33">
+								<![CDATA[			wrk_conversion[4].0			:=		C1_ManualStart_HE;			// Micro820 tag: HMI_I_C1_ManualStart_HE]]>
+							</Line>
+							<Line Number="34">
+								<![CDATA[			wrk_conversion[5].0			:=		C1_ManualStart_V1;			// Micro820 tag: HMI_I_C1_ManualStart_V1]]>
+							</Line>
+							<Line Number="35">
+								<![CDATA[			wrk_conversion[6].0			:=		C1_ManualStart_V2;			// Micro820 tag: HMI_I_C1_ManualStart_V2]]>
+							</Line>
+							<Line Number="36">
+								<![CDATA[			// IS ALLREADY A REAL, DOESNT NEED CONVERSION! 					// Micro820 tag: HMI_I_C1_Kc]]>
+							</Line>
+							<Line Number="37">
+								<![CDATA[			// IS ALLREADY A REAL, DOESNT NEED CONVERSION! 					// Micro820 tag: HMI_I_C1_Ti]]>
+							</Line>
+							<Line Number="38">
+								<![CDATA[			// IS ALLREADY A REAL, DOESNT NEED CONVERSION! 					// Micro820 tag: HMI_I_C1_Td]]>
+							</Line>
+							<Line Number="39">
+								<![CDATA[			// IS ALLREADY A REAL, DOESNT NEED CONVERSION! 					// Micro820 tag: HMI_I_C1_FC]]>
+							</Line>
+							<Line Number="40">
+								<![CDATA[			// IS ALLREADY A REAL, DOESNT NEED CONVERSION! 					// Micro820 tag: HMI_I_C1_PID_Setpoint]]>
+							</Line>
+							<Line Number="41">
+								<![CDATA[			// IS ALLREADY A REAL, DOESNT NEED CONVERSION!					// Micro820 tag: HMI_I_C1_PID_HandValue]]>
+							</Line>
+							<Line Number="42">
+								<![CDATA[			wrk_conversion[13]			:=		C1_PID_CycleTime;			// Micro820 tag: HMI_I_C1_PID_CycleTime]]>
+							</Line>
+							<Line Number="43">
+								<![CDATA[		#endregion]]>
+							</Line>
+							<Line Number="44">
+								<![CDATA[		/* set data for micro820 tag */]]>
+							</Line>
+							<Line Number="45">
+								<![CDATA[		Write_Element[00]:=wrk_conversion[00];]]>
+							</Line>
+							<Line Number="46">
+								<![CDATA[		Write_Element[01]:=wrk_conversion[01];]]>
+							</Line>
+							<Line Number="47">
+								<![CDATA[		Write_Element[02]:=wrk_conversion[02];]]>
+							</Line>
+							<Line Number="48">
+								<![CDATA[		Write_Element[03]:=wrk_conversion[03];]]>
+							</Line>
+							<Line Number="49">
+								<![CDATA[		Write_Element[04]:=wrk_conversion[04];]]>
+							</Line>
+							<Line Number="50">
+								<![CDATA[		Write_Element[05]:=wrk_conversion[05];]]>
+							</Line>
+							<Line Number="51">
+								<![CDATA[		Write_Element[06]:=wrk_conversion[06];]]>
+							</Line>
+							<Line Number="52">
+								<![CDATA[		Write_Element[07]:=C1_Kc;]]>
+							</Line>
+							<Line Number="53">
+								<![CDATA[		Write_Element[08]:=C1_Ti;]]>
+							</Line>
+							<Line Number="54">
+								<![CDATA[		Write_Element[09]:=C1_Td;]]>
+							</Line>
+							<Line Number="55">
+								<![CDATA[		Write_Element[10]:=C1_FC;]]>
+							</Line>
+							<Line Number="56">
+								<![CDATA[		Write_Element[11]:=C1_PID_Setpoint;]]>
+							</Line>
+							<Line Number="57">
+								<![CDATA[		Write_Element[12]:=C1_PID_HandValue;]]>
+							</Line>
+							<Line Number="58">
+								<![CDATA[		Write_Element[13]:=wrk_conversion[13];]]>
+							</Line>
+							<Line Number="59">
+								<![CDATA[	#endregion]]>
+							</Line>
+							<Line Number="60">
+								<![CDATA[	#region C2 data]]>
+							</Line>
+							<Line Number="61">
+								<![CDATA[		#region Convert InputData to LREAL]]>
+							</Line>
+							<Line Number="62">
+								<![CDATA[			wrk_conversion[20].0			:=		C2_Select_Mode;			// Micro820 tag: HMI_I_C2_Select_Mode]]>
+							</Line>
+							<Line Number="63">
+								<![CDATA[			wrk_conversion[21].0			:=		C2_Start;				// Micro820 tag: HMI_I_StartC2]]>
+							</Line>
+							<Line Number="64">
+								<![CDATA[			wrk_conversion[22].0			:=		C2_ManualStart_CP;		// Micro820 tag: HMI_I_C2_ManualStart_CP]]>
+							</Line>
+							<Line Number="65">
+								<![CDATA[			wrk_conversion[23].0			:=		C2_ManualStart_HE;		// Micro820 tag: HMI_I_C2_ManualStart_HE]]>
+							</Line>
+							<Line Number="66">
+								<![CDATA[			wrk_conversion[24].0			:=		C2_ManualStart_V1;		// Micro820 tag: HMI_I_C2_ManualStart_V1]]>
+							</Line>
+							<Line Number="67">
+								<![CDATA[			wrk_conversion[25].0			:=		C2_ManualStart_V2;		// Micro820 tag: HMI_I_C2_ManualStart_V2]]>
+							</Line>
+							<Line Number="68">
+								<![CDATA[			// IS ALLREADY A REAL, DOESNT NEED CONVERSION! 					// Micro820 tag: HMI_I_C2_Kc]]>
+							</Line>
+							<Line Number="69">
+								<![CDATA[			// IS ALLREADY A REAL, DOESNT NEED CONVERSION! 					// Micro820 tag: HMI_I_C2_Ti]]>
+							</Line>
+							<Line Number="70">
+								<![CDATA[			// IS ALLREADY A REAL, DOESNT NEED CONVERSION! 					// Micro820 tag: HMI_I_C2_Td]]>
+							</Line>
+							<Line Number="71">
+								<![CDATA[			// IS ALLREADY A REAL, DOESNT NEED CONVERSION! 					// Micro820 tag: HMI_I_C2_FC]]>
+							</Line>
+							<Line Number="72">
+								<![CDATA[			// IS ALLREADY A REAL, DOESNT NEED CONVERSION! 					// Micro820 tag: HMI_I_C2_PID_Setpoint]]>
+							</Line>
+							<Line Number="73">
+								<![CDATA[			// IS ALLREADY A REAL, DOESNT NEED CONVERSION!					// Micro820 tag: HMI_I_C2_PID_HandValue]]>
+							</Line>
+							<Line Number="74">
+								<![CDATA[			wrk_conversion[32]			:=		C2_PID_CycleTime;			// Micro820 tag: HMI_I_C2_PID_CycleTime]]>
+							</Line>
+							<Line Number="75">
+								<![CDATA[		#endregion]]>
+							</Line>
+							<Line Number="76">
+								<![CDATA[		/* set data for micro820 tag */]]>
+							</Line>
+							<Line Number="77">
+								<![CDATA[		Write_Element[20]:=wrk_conversion[20];]]>
+							</Line>
+							<Line Number="78">
+								<![CDATA[		Write_Element[21]:=wrk_conversion[21];]]>
+							</Line>
+							<Line Number="79">
+								<![CDATA[		Write_Element[22]:=wrk_conversion[22];]]>
+							</Line>
+							<Line Number="80">
+								<![CDATA[		Write_Element[23]:=wrk_conversion[23];]]>
+							</Line>
+							<Line Number="81">
+								<![CDATA[		Write_Element[24]:=wrk_conversion[24];]]>
+							</Line>
+							<Line Number="82">
+								<![CDATA[		Write_Element[25]:=wrk_conversion[25];]]>
+							</Line>
+							<Line Number="83">
+								<![CDATA[		Write_Element[26]:=C2_Kc;]]>
+							</Line>
+							<Line Number="84">
+								<![CDATA[		Write_Element[27]:=C2_Ti;]]>
+							</Line>
+							<Line Number="85">
+								<![CDATA[		Write_Element[28]:=C2_Td;]]>
+							</Line>
+							<Line Number="86">
+								<![CDATA[		Write_Element[29]:=C2_FC;]]>
+							</Line>
+							<Line Number="87">
+								<![CDATA[		Write_Element[30]:=C2_PID_Setpoint;]]>
+							</Line>
+							<Line Number="88">
+								<![CDATA[		Write_Element[31]:=C2_PID_HandValue;]]>
+							</Line>
+							<Line Number="89">
+								<![CDATA[		Write_Element[32]:=wrk_conversion[32];]]>
+							</Line>
+							<Line Number="90">
+								<![CDATA[	#endregion]]>
+							</Line>
+							<Line Number="91">
+								<![CDATA[#endregion]]>
+							</Line>
+							<Line Number="92">
+								<![CDATA[#region OutputData]]>
+							</Line>
+							<Line Number="93">
+								<![CDATA[	#region C1]]>
+							</Line>
+							<Line Number="94">
+								<![CDATA[		C1_Temperature						:=		Read_Element[0];]]>
+							</Line>
+							<Line Number="95">
+								<![CDATA[		C1_PID_OUTPUT						:=		Read_Element[1];]]>
+							</Line>
+							<Line Number="96">
+								<![CDATA[		]]>
+							</Line>
+							<Line Number="97">
+								<![CDATA[		wrk_conversion[2]					:=		Read_Element[2];]]>
+							</Line>
+							<Line Number="98">
+								<![CDATA[		ALARM_C1_PressureFaulted			:=		wrk_conversion[2].0;]]>
+							</Line>
+							<Line Number="99">
+								<![CDATA[		]]>
+							</Line>
+							<Line Number="100">
+								<![CDATA[		wrk_conversion[3]					:=		Read_Element[3];]]>
+							</Line>
+							<Line Number="101">
+								<![CDATA[		ALARM_C1_Overload_CirculationPump	:=		wrk_conversion[3].0;]]>
+							</Line>
+							<Line Number="102">
+								<![CDATA[		]]>
+							</Line>
+							<Line Number="103">
+								<![CDATA[		wrk_conversion[4]					:=		Read_Element[4];]]>
+							</Line>
+							<Line Number="104">
+								<![CDATA[		ALARM_C1_Overload_Heatingelment		:=		wrk_conversion[4].0;]]>
+							</Line>
+							<Line Number="105">
+								<![CDATA[		]]>
+							</Line>
+							<Line Number="106">
+								<![CDATA[		wrk_conversion[5]					:=		Read_Element[5];]]>
+							</Line>
+							<Line Number="107">
+								<![CDATA[		ALARM_C1_Max_TemperatureSwitch		:=		wrk_conversion[5].0;]]>
+							</Line>
+							<Line Number="108">
+								<![CDATA[		]]>
+							</Line>
+							<Line Number="109">
+								<![CDATA[		wrk_conversion[6]					:=		Read_Element[6];]]>
+							</Line>
+							<Line Number="110">
+								<![CDATA[		ALARM_C1_TemperatureSensorLost		:=		wrk_conversion[6].0;]]>
+							</Line>
+							<Line Number="111">
+								<![CDATA[	#endregion]]>
+							</Line>
+							<Line Number="112">
+								<![CDATA[	#region C2]]>
+							</Line>
+							<Line Number="113">
+								<![CDATA[		C2_Temperature						:=		Read_Element[20];]]>
+							</Line>
+							<Line Number="114">
+								<![CDATA[		C2_PID_OUTPUT						:=		Read_Element[21];]]>
+							</Line>
+							<Line Number="115">
+								<![CDATA[		]]>
+							</Line>
+							<Line Number="116">
+								<![CDATA[		wrk_conversion[22]					:=		Read_Element[22];]]>
+							</Line>
+							<Line Number="117">
+								<![CDATA[		ALARM_C2_PressureFaulted			:=		wrk_conversion[22].0;]]>
+							</Line>
+							<Line Number="118">
+								<![CDATA[		]]>
+							</Line>
+							<Line Number="119">
+								<![CDATA[		wrk_conversion[23]					:=		Read_Element[23];]]>
+							</Line>
+							<Line Number="120">
+								<![CDATA[		ALARM_C2_Overload_CirculationPump	:=		wrk_conversion[23].0;]]>
+							</Line>
+							<Line Number="121">
+								<![CDATA[		]]>
+							</Line>
+							<Line Number="122">
+								<![CDATA[		wrk_conversion[24]					:=		Read_Element[24];]]>
+							</Line>
+							<Line Number="123">
+								<![CDATA[		ALARM_C2_Overload_Heatingelment		:=		wrk_conversion[24].0;]]>
+							</Line>
+							<Line Number="124">
+								<![CDATA[		]]>
+							</Line>
+							<Line Number="125">
+								<![CDATA[		wrk_conversion[25]					:=		Read_Element[25];]]>
+							</Line>
+							<Line Number="126">
+								<![CDATA[		ALARM_C2_Max_TemperatureSwitch		:=		wrk_conversion[25].0;]]>
+							</Line>
+							<Line Number="127">
+								<![CDATA[		]]>
+							</Line>
+							<Line Number="128">
+								<![CDATA[		wrk_conversion[26]					:=		Read_Element[26];]]>
+							</Line>
+							<Line Number="129">
+								<![CDATA[		ALARM_C2_TemperatureSensorLost		:=		wrk_conversion[26].0;]]>
+							</Line>
+							<Line Number="130">
+								<![CDATA[	#endregion]]>
+							</Line>
+							<Line Number="131">
+								<![CDATA[#endregion]]>
+							</Line>
+							<Line Number="132">
+								<![CDATA[/*]]>
+							</Line>
+							<Line Number="133">
+								<![CDATA[	#######################################################]]>
+							</Line>
+							<Line Number="134">
+								<![CDATA[				Documentation for WTU signals]]>
+							</Line>
+							<Line Number="135">
+								<![CDATA[	#######################################################				]]>
+							</Line>
+							<Line Number="136">
+								<![CDATA[HMI_I_Reset							:=			ANY_TO_BOOL(InputData[0]);]]>
+							</Line>
+							<Line Number="137">
+								<![CDATA[HMI_I_C1_Select_Mode				:=			ANY_TO_BOOL(InputData[1]);]]>
+							</Line>
+							<Line Number="138">
+								<![CDATA[HMI_I_StartC1						:=			ANY_TO_BOOL(InputData[2]);]]>
+							</Line>
+							<Line Number="139">
+								<![CDATA[HMI_I_C1_ManualStart_CP				:=			ANY_TO_BOOL(InputData[3]);]]>
+							</Line>
+							<Line Number="140">
+								<![CDATA[HMI_I_C1_ManualStart_HE				:=			ANY_TO_BOOL(InputData[4]);]]>
+							</Line>
+							<Line Number="141">
+								<![CDATA[HMI_I_C1_ManualStart_V1				:=			ANY_TO_BOOL(InputData[5]);]]>
+							</Line>
+							<Line Number="142">
+								<![CDATA[HMI_I_C1_ManualStart_V2				:=			ANY_TO_BOOL(InputData[6]);]]>
+							</Line>
+							<Line Number="143">
+								<![CDATA[HMI_I_C1_Kc							:=			ANY_TO_REAL(InputData[7]);]]>
+							</Line>
+							<Line Number="144">
+								<![CDATA[HMI_I_C1_Ti							:=			ANY_TO_REAL(InputData[8]);]]>
+							</Line>
+							<Line Number="145">
+								<![CDATA[HMI_I_C1_Td							:=			ANY_TO_REAL(InputData[9]);]]>
+							</Line>
+							<Line Number="146">
+								<![CDATA[HMI_I_C1_FC							:=			ANY_TO_REAL(InputData[10]);]]>
+							</Line>
+							<Line Number="147">
+								<![CDATA[HMI_I_C1_PID_Setpoint				:=			ANY_TO_REAL(InputData[11]);]]>
+							</Line>
+							<Line Number="148">
+								<![CDATA[HMI_I_C1_PID_HandValue				:=			ANY_TO_REAL(InputData[12]);]]>
+							</Line>
+							<Line Number="149">
+								<![CDATA[HMI_I_C1_PID_CycleTime				:=			ANY_TO_DINT(InputData[13]);]]>
+							</Line>
+							<Line Number="150">
+								<![CDATA[HMI_I_C2_Select_Mode				:=			ANY_TO_BOOL(InputData[20]);]]>
+							</Line>
+							<Line Number="151">
+								<![CDATA[HMI_I_StartC2						:=			ANY_TO_BOOL(InputData[21]);]]>
+							</Line>
+							<Line Number="152">
+								<![CDATA[HMI_I_C2_ManualStart_CP				:=			ANY_TO_BOOL(InputData[22]);]]>
+							</Line>
+							<Line Number="153">
+								<![CDATA[HMI_I_C2_ManualStart_HE				:=			ANY_TO_BOOL(InputData[23]);]]>
+							</Line>
+							<Line Number="154">
+								<![CDATA[HMI_I_C2_ManualStart_V1				:=			ANY_TO_BOOL(InputData[24]);]]>
+							</Line>
+							<Line Number="155">
+								<![CDATA[HMI_I_C2_ManualStart_V2				:=			ANY_TO_BOOL(InputData[25]);]]>
+							</Line>
+							<Line Number="156">
+								<![CDATA[HMI_I_C2_Kc							:=			ANY_TO_REAL(InputData[26]);]]>
+							</Line>
+							<Line Number="157">
+								<![CDATA[HMI_I_C2_Ti							:=			ANY_TO_REAL(InputData[27]);]]>
+							</Line>
+							<Line Number="158">
+								<![CDATA[HMI_I_C2_Td							:=			ANY_TO_REAL(InputData[28]);]]>
+							</Line>
+							<Line Number="159">
+								<![CDATA[HMI_I_C2_FC							:=			ANY_TO_REAL(InputData[29]);]]>
+							</Line>
+							<Line Number="160">
+								<![CDATA[HMI_I_C2_PID_Setpoint				:=			ANY_TO_REAL(InputData[30]);]]>
+							</Line>
+							<Line Number="161">
+								<![CDATA[HMI_I_C2_PID_HandValue				:=			ANY_TO_REAL(InputData[31]);]]>
+							</Line>
+							<Line Number="162">
+								<![CDATA[HMI_I_C2_PID_CycleTime				:=			ANY_TO_DINT(InputData[32]);]]>
+							</Line>
+							<Line Number="163">
+								<![CDATA[OutputData[0] 						:=			ANY_TO_LREAL(HMI_C1_Temperature);]]>
+							</Line>
+							<Line Number="164">
+								<![CDATA[OutputData[1]						:=			ANY_TO_LREAL(HMI_I_C1_PID_OUTPUT);]]>
+							</Line>
+							<Line Number="165">
+								<![CDATA[OutputData[2] 						:=			ANY_TO_LREAL(ALARM_C1_PressureFaulted);]]>
+							</Line>
+							<Line Number="166">
+								<![CDATA[OutputData[3] 						:=			ANY_TO_LREAL(ALARM_C1_Overload_CirculationPump);]]>
+							</Line>
+							<Line Number="167">
+								<![CDATA[OutputData[4] 						:=			ANY_TO_LREAL(ALARM_C1_Overload_Heatingelment);]]>
+							</Line>
+							<Line Number="168">
+								<![CDATA[OutputData[5] 						:=			ANY_TO_LREAL(ALARM_C1_Max_TemperatureSwitch);]]>
+							</Line>
+							<Line Number="169">
+								<![CDATA[OutputData[6] 						:=			ANY_TO_LREAL(ALARM_C1_TemperatureSensorLost);]]>
+							</Line>
+							<Line Number="170">
+								<![CDATA[OutputData[20]				 		:=			ANY_TO_LREAL(HMI_C2_Temperature);]]>
+							</Line>
+							<Line Number="171">
+								<![CDATA[OutputData[21] 						:=			ANY_TO_LREAL(HMI_I_C2_PID_OUTPUT);]]>
+							</Line>
+							<Line Number="172">
+								<![CDATA[OutputData[22] 						:=			ANY_TO_LREAL(ALARM_C2_PressureFaulted);]]>
+							</Line>
+							<Line Number="173">
+								<![CDATA[OutputData[23] 						:=			ANY_TO_LREAL(ALARM_C2_Overload_CirculationPump);]]>
+							</Line>
+							<Line Number="174">
+								<![CDATA[OutputData[24]						:=			ANY_TO_LREAL(ALARM_C2_Overload_Heatingelment);]]>
+							</Line>
+							<Line Number="175">
+								<![CDATA[OutputData[25] 						:=			ANY_TO_LREAL(ALARM_C2_Max_TemperatureSwitch);]]>
+							</Line>
+							<Line Number="176">
+								<![CDATA[OutputData[26] 						:=			ANY_TO_LREAL(ALARM_C2_TemperatureSensorLost);]]>
+							</Line>
+							<Line Number="177">
+								<![CDATA[*/]]>
+							</Line>
+						</STContent>
+					</Routine>
+				</Routines>
+			</AddOnInstructionDefinition>
+		</AddOnInstructionDefinitions>
+		<Programs Use="Context">
+			<Program Use="Context" Name="WTUs" Class="Standard">
+				<Tags Use="Context">
+					<Tag Name="Alarm10_WTU_X" TagType="Base" DataType="ALARM_DIGITAL" ExternalAccess="Read/Write">
+						<Data Format="Alarm">
+							<AlarmDigitalParameters Severity="500" MinDurationPRE="0" ShelveDuration="0" MaxShelveDuration="0" ProgTime="DT#1970-01-01-00:00:00.000_000Z" EnableIn="false" In="false" InFault="false" Condition="true" AckRequired="true" Latched="false"
+							 ProgAck="false" OperAck="false" ProgReset="false" OperReset="false" ProgSuppress="false" OperSuppress="false" ProgUnsuppress="false" OperUnsuppress="false" OperShelve="false" ProgUnshelve="false" OperUnshelve="false"
+							 ProgDisable="false" OperDisable="false" ProgEnable="false" OperEnable="false" AlarmCountReset="false" UseProgTime="false"/>
+							<AlarmConfig>
+								<Messages>
+									<Message Type="AM">
+										<Text Lang="en-US">
+											<![CDATA[| WTU_X | C2 PressureFaulted]]>
+										</Text>
+									</Message>
+								</Messages>
+							</AlarmConfig>
+						</Data>
+					</Tag>
+					<Tag Name="Alarm11_WTU_X" TagType="Base" DataType="ALARM_DIGITAL" ExternalAccess="Read/Write">
+						<Data Format="Alarm">
+							<AlarmDigitalParameters Severity="500" MinDurationPRE="0" ShelveDuration="0" MaxShelveDuration="0" ProgTime="DT#1970-01-01-00:00:00.000_000Z" EnableIn="false" In="false" InFault="false" Condition="true" AckRequired="true" Latched="false"
+							 ProgAck="false" OperAck="false" ProgReset="false" OperReset="false" ProgSuppress="false" OperSuppress="false" ProgUnsuppress="false" OperUnsuppress="false" OperShelve="false" ProgUnshelve="false" OperUnshelve="false"
+							 ProgDisable="false" OperDisable="false" ProgEnable="false" OperEnable="false" AlarmCountReset="false" UseProgTime="false"/>
+							<AlarmConfig>
+								<Messages>
+									<Message Type="AM">
+										<Text Lang="en-US">
+											<![CDATA[| WTU_X | C2_Overload_CirculationPump]]>
+										</Text>
+									</Message>
+								</Messages>
+							</AlarmConfig>
+						</Data>
+					</Tag>
+					<Tag Name="Alarm12_WTU_X" TagType="Base" DataType="ALARM_DIGITAL" ExternalAccess="Read/Write">
+						<Data Format="Alarm">
+							<AlarmDigitalParameters Severity="500" MinDurationPRE="0" ShelveDuration="0" MaxShelveDuration="0" ProgTime="DT#1970-01-01-00:00:00.000_000Z" EnableIn="false" In="false" InFault="false" Condition="true" AckRequired="true" Latched="false"
+							 ProgAck="false" OperAck="false" ProgReset="false" OperReset="false" ProgSuppress="false" OperSuppress="false" ProgUnsuppress="false" OperUnsuppress="false" OperShelve="false" ProgUnshelve="false" OperUnshelve="false"
+							 ProgDisable="false" OperDisable="false" ProgEnable="false" OperEnable="false" AlarmCountReset="false" UseProgTime="false"/>
+							<AlarmConfig>
+								<Messages>
+									<Message Type="AM">
+										<Text Lang="en-US">
+											<![CDATA[| WTU_X | C2_Overload_Heatingelment]]>
+										</Text>
+									</Message>
+								</Messages>
+							</AlarmConfig>
+						</Data>
+					</Tag>
+					<Tag Name="Alarm13_WTU_X" TagType="Base" DataType="ALARM_DIGITAL" ExternalAccess="Read/Write">
+						<Data Format="Alarm">
+							<AlarmDigitalParameters Severity="500" MinDurationPRE="0" ShelveDuration="0" MaxShelveDuration="0" ProgTime="DT#1970-01-01-00:00:00.000_000Z" EnableIn="false" In="false" InFault="false" Condition="true" AckRequired="true" Latched="false"
+							 ProgAck="false" OperAck="false" ProgReset="false" OperReset="false" ProgSuppress="false" OperSuppress="false" ProgUnsuppress="false" OperUnsuppress="false" OperShelve="false" ProgUnshelve="false" OperUnshelve="false"
+							 ProgDisable="false" OperDisable="false" ProgEnable="false" OperEnable="false" AlarmCountReset="false" UseProgTime="false"/>
+							<AlarmConfig>
+								<Messages>
+									<Message Type="AM">
+										<Text Lang="en-US">
+											<![CDATA[| WTU_X | C2_Max_TemperatureSwitch]]>
+										</Text>
+									</Message>
+								</Messages>
+							</AlarmConfig>
+						</Data>
+					</Tag>
+					<Tag Name="Alarm14_WTU_X" TagType="Base" DataType="ALARM_DIGITAL" ExternalAccess="Read/Write">
+						<Data Format="Alarm">
+							<AlarmDigitalParameters Severity="500" MinDurationPRE="0" ShelveDuration="0" MaxShelveDuration="0" ProgTime="DT#1970-01-01-00:00:00.000_000Z" EnableIn="false" In="false" InFault="false" Condition="true" AckRequired="true" Latched="false"
+							 ProgAck="false" OperAck="false" ProgReset="false" OperReset="false" ProgSuppress="false" OperSuppress="false" ProgUnsuppress="false" OperUnsuppress="false" OperShelve="false" ProgUnshelve="false" OperUnshelve="false"
+							 ProgDisable="false" OperDisable="false" ProgEnable="false" OperEnable="false" AlarmCountReset="false" UseProgTime="false"/>
+							<AlarmConfig>
+								<Messages>
+									<Message Type="AM">
+										<Text Lang="en-US">
+											<![CDATA[| WTU_X | C2_TemperatureSensorLost]]>
+										</Text>
+									</Message>
+								</Messages>
+							</AlarmConfig>
+						</Data>
+					</Tag>
+					<Tag Name="Alarm1_WTU_X" TagType="Base" DataType="ALARM_DIGITAL" ExternalAccess="Read/Write">
+						<Data Format="Alarm">
+							<AlarmDigitalParameters Severity="500" MinDurationPRE="0" ShelveDuration="0" MaxShelveDuration="0" ProgTime="DT#1970-01-01-00:00:00.000_000Z" EnableIn="false" In="false" InFault="false" Condition="true" AckRequired="true" Latched="false"
+							 ProgAck="false" OperAck="false" ProgReset="false" OperReset="false" ProgSuppress="false" OperSuppress="false" ProgUnsuppress="false" OperUnsuppress="false" OperShelve="false" ProgUnshelve="false" OperUnshelve="false"
+							 ProgDisable="false" OperDisable="false" ProgEnable="false" OperEnable="false" AlarmCountReset="false" UseProgTime="false"/>
+							<AlarmConfig>
+								<Messages>
+									<Message Type="AM">
+										<Text Lang="en-US">
+											<![CDATA[| WTU_X | C1_PressureFaulted]]>
+										</Text>
+									</Message>
+								</Messages>
+							</AlarmConfig>
+						</Data>
+					</Tag>
+					<Tag Name="Alarm2_WTU_X" TagType="Base" DataType="ALARM_DIGITAL" ExternalAccess="Read/Write">
+						<Data Format="Alarm">
+							<AlarmDigitalParameters Severity="500" MinDurationPRE="0" ShelveDuration="0" MaxShelveDuration="0" ProgTime="DT#1970-01-01-00:00:00.000_000Z" EnableIn="false" In="false" InFault="false" Condition="true" AckRequired="true" Latched="false"
+							 ProgAck="false" OperAck="false" ProgReset="false" OperReset="false" ProgSuppress="false" OperSuppress="false" ProgUnsuppress="false" OperUnsuppress="false" OperShelve="false" ProgUnshelve="false" OperUnshelve="false"
+							 ProgDisable="false" OperDisable="false" ProgEnable="false" OperEnable="false" AlarmCountReset="false" UseProgTime="false"/>
+							<AlarmConfig>
+								<Messages>
+									<Message Type="AM">
+										<Text Lang="en-US">
+											<![CDATA[| WTU_X | C1_Overload_CirculationPump]]>
+										</Text>
+									</Message>
+								</Messages>
+							</AlarmConfig>
+						</Data>
+					</Tag>
+					<Tag Name="Alarm3_WTU_X" TagType="Base" DataType="ALARM_DIGITAL" ExternalAccess="Read/Write">
+						<Data Format="Alarm">
+							<AlarmDigitalParameters Severity="500" MinDurationPRE="0" ShelveDuration="0" MaxShelveDuration="0" ProgTime="DT#1970-01-01-00:00:00.000_000Z" EnableIn="false" In="false" InFault="false" Condition="true" AckRequired="true" Latched="false"
+							 ProgAck="false" OperAck="false" ProgReset="false" OperReset="false" ProgSuppress="false" OperSuppress="false" ProgUnsuppress="false" OperUnsuppress="false" OperShelve="false" ProgUnshelve="false" OperUnshelve="false"
+							 ProgDisable="false" OperDisable="false" ProgEnable="false" OperEnable="false" AlarmCountReset="false" UseProgTime="false"/>
+							<AlarmConfig>
+								<Messages>
+									<Message Type="AM">
+										<Text Lang="en-US">
+											<![CDATA[| WTU_X | C1_Overload_Heatingelment]]>
+										</Text>
+									</Message>
+								</Messages>
+							</AlarmConfig>
+						</Data>
+					</Tag>
+					<Tag Name="Alarm4_WTU_X" TagType="Base" DataType="ALARM_DIGITAL" ExternalAccess="Read/Write">
+						<Data Format="Alarm">
+							<AlarmDigitalParameters Severity="500" MinDurationPRE="0" ShelveDuration="0" MaxShelveDuration="0" ProgTime="DT#1970-01-01-00:00:00.000_000Z" EnableIn="false" In="false" InFault="false" Condition="true" AckRequired="true" Latched="false"
+							 ProgAck="false" OperAck="false" ProgReset="false" OperReset="false" ProgSuppress="false" OperSuppress="false" ProgUnsuppress="false" OperUnsuppress="false" OperShelve="false" ProgUnshelve="false" OperUnshelve="false"
+							 ProgDisable="false" OperDisable="false" ProgEnable="false" OperEnable="false" AlarmCountReset="false" UseProgTime="false"/>
+							<AlarmConfig>
+								<Messages>
+									<Message Type="AM">
+										<Text Lang="en-US">
+											<![CDATA[| WTU_X | C1_Max_TemperatureSwitch]]>
+										</Text>
+									</Message>
+								</Messages>
+							</AlarmConfig>
+						</Data>
+					</Tag>
+					<Tag Name="Alarm5_WTU_X" TagType="Base" DataType="ALARM_DIGITAL" ExternalAccess="Read/Write">
+						<Data Format="Alarm">
+							<AlarmDigitalParameters Severity="500" MinDurationPRE="0" ShelveDuration="0" MaxShelveDuration="0" ProgTime="DT#1970-01-01-00:00:00.000_000Z" EnableIn="false" In="false" InFault="false" Condition="false" AckRequired="true" Latched="false"
+							 ProgAck="false" OperAck="false" ProgReset="false" OperReset="false" ProgSuppress="false" OperSuppress="false" ProgUnsuppress="false" OperUnsuppress="false" OperShelve="false" ProgUnshelve="false" OperUnshelve="false"
+							 ProgDisable="false" OperDisable="false" ProgEnable="false" OperEnable="false" AlarmCountReset="false" UseProgTime="false"/>
+							<AlarmConfig>
+								<Messages>
+									<Message Type="AM">
+										<Text Lang="en-US">
+											<![CDATA[| WTU_X | C1_TemperatureSensorLost]]>
+										</Text>
+									</Message>
+								</Messages>
+							</AlarmConfig>
+						</Data>
+					</Tag>
+					<Tag Name="dscript_parameter_WTU_X" TagType="Base" DataType="Descriptor" Dimensions="10" Usage="Public" Constant="false" ExternalAccess="Read/Write">
+						<Data Format="L5K">
+							<![CDATA[[[0,[19,'WTU_X C1 Cycle time$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00'
+		],[2,'ms$00$00$00$00$00$00'],0.00000000e+000],[0,[11,'WTU_X C1 Kc$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00'
+		],[0,'$00$00$00$00$00$00$00$00'],1.00000000e+000],[0,[11,'WTU_X C1 Ti$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00'
+		],[0,'$00$00$00$00$00$00$00$00'],2.00000000e+000],[0,[11,'WTU_X C1 Td$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00'
+		],[0,'$00$00$00$00$00$00$00$00'],3.00000000e+000],[0,[11,'WTU_X C1 Fc$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00'
+		],[0,'$00$00$00$00$00$00$00$00'],4.00000000e+000],[0,[19,'WTU_X C2 Cycle Time$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00'
+		],[2,'ms$00$00$00$00$00$00'],5.00000000e+000],[0,[11,'WTU_X C2 Kc$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00'
+		],[0,'$00$00$00$00$00$00$00$00'],6.00000000e+000],[0,[11,'WTU_X C2 Ti$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00'
+		],[0,'$00$00$00$00$00$00$00$00'],7.00000000e+000],[0,[11,'WTU_X C2 Td$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00'
+		],[0,'$00$00$00$00$00$00$00$00'],8.00000000e+000],[0,[11,'WTU_X C2 Fc$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00'
+		],[0,'$00$00$00$00$00$00$00$00'],9.00000000e+000]]]]>
+						</Data>
+						<Data Format="Decorated">
+							<Array DataType="Descriptor" Dimensions="10">
+								<Element Index="[0]">
+									<Structure DataType="Descriptor">
+										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
+										<StructureMember Name="Name" DataType="STRING">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="19"/>
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
+												<![CDATA['WTU_X C1 Cycle time']]>
+											</DataValueMember>
+										</StructureMember>
+										<StructureMember Name="Unit" DataType="STRING_08">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="2"/>
+											<DataValueMember Name="DATA" DataType="STRING_08" Radix="ASCII">
+												<![CDATA['ms']]>
+											</DataValueMember>
+										</StructureMember>
+										<DataValueMember Name="Value" DataType="REAL" Radix="Float" Value="0.0"/>
+									</Structure>
+								</Element>
+								<Element Index="[1]">
+									<Structure DataType="Descriptor">
+										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
+										<StructureMember Name="Name" DataType="STRING">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="11"/>
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
+												<![CDATA['WTU_X C1 Kc']]>
+											</DataValueMember>
+										</StructureMember>
+										<StructureMember Name="Unit" DataType="STRING_08">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="0"/>
+											<DataValueMember Name="DATA" DataType="STRING_08" Radix="ASCII">
+												<![CDATA[]]>
+											</DataValueMember>
+										</StructureMember>
+										<DataValueMember Name="Value" DataType="REAL" Radix="Float" Value="1.0"/>
+									</Structure>
+								</Element>
+								<Element Index="[2]">
+									<Structure DataType="Descriptor">
+										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
+										<StructureMember Name="Name" DataType="STRING">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="11"/>
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
+												<![CDATA['WTU_X C1 Ti']]>
+											</DataValueMember>
+										</StructureMember>
+										<StructureMember Name="Unit" DataType="STRING_08">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="0"/>
+											<DataValueMember Name="DATA" DataType="STRING_08" Radix="ASCII">
+												<![CDATA[]]>
+											</DataValueMember>
+										</StructureMember>
+										<DataValueMember Name="Value" DataType="REAL" Radix="Float" Value="2.0"/>
+									</Structure>
+								</Element>
+								<Element Index="[3]">
+									<Structure DataType="Descriptor">
+										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
+										<StructureMember Name="Name" DataType="STRING">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="11"/>
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
+												<![CDATA['WTU_X C1 Td']]>
+											</DataValueMember>
+										</StructureMember>
+										<StructureMember Name="Unit" DataType="STRING_08">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="0"/>
+											<DataValueMember Name="DATA" DataType="STRING_08" Radix="ASCII">
+												<![CDATA[]]>
+											</DataValueMember>
+										</StructureMember>
+										<DataValueMember Name="Value" DataType="REAL" Radix="Float" Value="3.0"/>
+									</Structure>
+								</Element>
+								<Element Index="[4]">
+									<Structure DataType="Descriptor">
+										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
+										<StructureMember Name="Name" DataType="STRING">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="11"/>
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
+												<![CDATA['WTU_X C1 Fc']]>
+											</DataValueMember>
+										</StructureMember>
+										<StructureMember Name="Unit" DataType="STRING_08">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="0"/>
+											<DataValueMember Name="DATA" DataType="STRING_08" Radix="ASCII">
+												<![CDATA[]]>
+											</DataValueMember>
+										</StructureMember>
+										<DataValueMember Name="Value" DataType="REAL" Radix="Float" Value="4.0"/>
+									</Structure>
+								</Element>
+								<Element Index="[5]">
+									<Structure DataType="Descriptor">
+										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
+										<StructureMember Name="Name" DataType="STRING">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="19"/>
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
+												<![CDATA['WTU_X C2 Cycle Time']]>
+											</DataValueMember>
+										</StructureMember>
+										<StructureMember Name="Unit" DataType="STRING_08">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="2"/>
+											<DataValueMember Name="DATA" DataType="STRING_08" Radix="ASCII">
+												<![CDATA['ms']]>
+											</DataValueMember>
+										</StructureMember>
+										<DataValueMember Name="Value" DataType="REAL" Radix="Float" Value="5.0"/>
+									</Structure>
+								</Element>
+								<Element Index="[6]">
+									<Structure DataType="Descriptor">
+										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
+										<StructureMember Name="Name" DataType="STRING">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="11"/>
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
+												<![CDATA['WTU_X C2 Kc']]>
+											</DataValueMember>
+										</StructureMember>
+										<StructureMember Name="Unit" DataType="STRING_08">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="0"/>
+											<DataValueMember Name="DATA" DataType="STRING_08" Radix="ASCII">
+												<![CDATA[]]>
+											</DataValueMember>
+										</StructureMember>
+										<DataValueMember Name="Value" DataType="REAL" Radix="Float" Value="6.0"/>
+									</Structure>
+								</Element>
+								<Element Index="[7]">
+									<Structure DataType="Descriptor">
+										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
+										<StructureMember Name="Name" DataType="STRING">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="11"/>
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
+												<![CDATA['WTU_X C2 Ti']]>
+											</DataValueMember>
+										</StructureMember>
+										<StructureMember Name="Unit" DataType="STRING_08">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="0"/>
+											<DataValueMember Name="DATA" DataType="STRING_08" Radix="ASCII">
+												<![CDATA[]]>
+											</DataValueMember>
+										</StructureMember>
+										<DataValueMember Name="Value" DataType="REAL" Radix="Float" Value="7.0"/>
+									</Structure>
+								</Element>
+								<Element Index="[8]">
+									<Structure DataType="Descriptor">
+										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
+										<StructureMember Name="Name" DataType="STRING">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="11"/>
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
+												<![CDATA['WTU_X C2 Td']]>
+											</DataValueMember>
+										</StructureMember>
+										<StructureMember Name="Unit" DataType="STRING_08">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="0"/>
+											<DataValueMember Name="DATA" DataType="STRING_08" Radix="ASCII">
+												<![CDATA[]]>
+											</DataValueMember>
+										</StructureMember>
+										<DataValueMember Name="Value" DataType="REAL" Radix="Float" Value="8.0"/>
+									</Structure>
+								</Element>
+								<Element Index="[9]">
+									<Structure DataType="Descriptor">
+										<DataValueMember Name="ID" DataType="DINT" Radix="Decimal" Value="0"/>
+										<StructureMember Name="Name" DataType="STRING">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="11"/>
+											<DataValueMember Name="DATA" DataType="STRING" Radix="ASCII">
+												<![CDATA['WTU_X C2 Fc']]>
+											</DataValueMember>
+										</StructureMember>
+										<StructureMember Name="Unit" DataType="STRING_08">
+											<DataValueMember Name="LEN" DataType="DINT" Radix="Decimal" Value="0"/>
+											<DataValueMember Name="DATA" DataType="STRING_08" Radix="ASCII">
+												<![CDATA[]]>
+											</DataValueMember>
+										</StructureMember>
+										<DataValueMember Name="Value" DataType="REAL" Radix="Float" Value="9.0"/>
+									</Structure>
+								</Element>
+							</Array>
+						</Data>
+					</Tag>
+					<Tag Name="WTU_X" TagType="Base" DataType="WaterCircuit" Usage="Public" Constant="false" ExternalAccess="Read/Write">
+						<Description>
+							<![CDATA[C1 & C2]]>
+						</Description>
+						<Data Format="L5K">
+							<![CDATA[[1,0,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000
+		,0.0000000000000000e+000,0.0000000000000000e+000,0,0.0000000000000000e+000,0.0000000000000000e+000
+		,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000
+		,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,[1,0,0,0,0,0,0,0,0,4,0,0],[0,0,0,0,0,0,0,0,0
+		,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],0]]]>
+						</Data>
+						<Data Format="Decorated">
+							<Structure DataType="WaterCircuit">
+								<DataValueMember Name="EnableIn" DataType="BOOL" Value="1"/>
+								<DataValueMember Name="EnableOut" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="Reset" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="C1_Select_Mode" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="C1_Start" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="C1_ManualStart_CP" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="C1_ManualStart_HE" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="C1_ManualStart_V1" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="C1_ManualStart_V2" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="C1_PID_CycleTime" DataType="DINT" Radix="Decimal" Value="0"/>
+								<DataValueMember Name="C1_Kc" DataType="LREAL" Radix="Float" Value="0.0"/>
+								<DataValueMember Name="C1_Ti" DataType="LREAL" Radix="Float" Value="0.0"/>
+								<DataValueMember Name="C1_Td" DataType="LREAL" Radix="Float" Value="0.0"/>
+								<DataValueMember Name="C1_FC" DataType="LREAL" Radix="Float" Value="0.0"/>
+								<DataValueMember Name="C1_PID_Setpoint" DataType="LREAL" Radix="Float" Value="0.0"/>
+								<DataValueMember Name="C1_PID_HandValue" DataType="LREAL" Radix="Float" Value="0.0"/>
+								<DataValueMember Name="C2_Select_Mode" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="C2_Start" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="C2_ManualStart_CP" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="C2_ManualStart_HE" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="C2_ManualStart_V1" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="C2_ManualStart_V2" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="C2_PID_CycleTime" DataType="DINT" Radix="Decimal" Value="0"/>
+								<DataValueMember Name="C2_Kc" DataType="LREAL" Radix="Float" Value="0.0"/>
+								<DataValueMember Name="C2_Ti" DataType="LREAL" Radix="Float" Value="0.0"/>
+								<DataValueMember Name="C2_Td" DataType="LREAL" Radix="Float" Value="0.0"/>
+								<DataValueMember Name="C2_FC" DataType="LREAL" Radix="Float" Value="0.0"/>
+								<DataValueMember Name="C2_PID_Setpoint" DataType="LREAL" Radix="Float" Value="0.0"/>
+								<DataValueMember Name="C2_PID_HandValue" DataType="LREAL" Radix="Float" Value="0.0"/>
+								<DataValueMember Name="C1_Temperature" DataType="REAL" Radix="Float" Value="0.0"/>
+								<DataValueMember Name="C1_PID_OUTPUT" DataType="REAL" Radix="Float" Value="0.0"/>
+								<DataValueMember Name="ALARM_C1_PressureFaulted" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="ALARM_C1_Overload_CirculationPump" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="ALARM_C1_Overload_Heatingelment" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="ALARM_C1_Max_TemperatureSwitch" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="ALARM_C1_TemperatureSensorLost" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="C2_Temperature" DataType="REAL" Radix="Float" Value="0.0"/>
+								<DataValueMember Name="C2_PID_OUTPUT" DataType="REAL" Radix="Float" Value="0.0"/>
+								<DataValueMember Name="ALARM_C2_PressureFaulted" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="ALARM_C2_Overload_CirculationPump" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="ALARM_C2_Overload_Heatingelment" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="ALARM_C2_Max_TemperatureSwitch" DataType="BOOL" Value="0"/>
+								<DataValueMember Name="ALARM_C2_TemperatureSensorLost" DataType="BOOL" Value="0"/>
+							</Structure>
+						</Data>
+					</Tag>
+					<Tag Name="WTU_X_ReadData" TagType="Base" DataType="MESSAGE" ExternalAccess="Read/Write">
+						<Data Format="Message">
+							<MessageParameters MessageType="CIP Data Table Read" RemoteElement="OutputData" RequestedLength="40" ConnectedFlag="1" ConnectionPath="WTU_X_Device" CommTypeCode="0" LocalIndex="0" LocalElement="WTU_X_ReadElement" CacheConnections="TRUE"/>
+						</Data>
+					</Tag>
+					<Tag Name="WTU_X_ReadElement" TagType="Base" DataType="LREAL" Dimensions="40" Radix="Float" Constant="false" ExternalAccess="Read/Write">
+						<Data Format="L5K">
+							<![CDATA[[0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000
+		,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000
+		,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000
+		,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000
+		,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000
+		,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000
+		,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000
+		,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000
+		,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000
+		,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000
+		]]]>
+						</Data>
+						<Data Format="Decorated">
+							<Array DataType="LREAL" Dimensions="40" Radix="Float">
+								<Element Index="[0]" Value="0.0"/>
+								<Element Index="[1]" Value="0.0"/>
+								<Element Index="[2]" Value="0.0"/>
+								<Element Index="[3]" Value="0.0"/>
+								<Element Index="[4]" Value="0.0"/>
+								<Element Index="[5]" Value="0.0"/>
+								<Element Index="[6]" Value="0.0"/>
+								<Element Index="[7]" Value="0.0"/>
+								<Element Index="[8]" Value="0.0"/>
+								<Element Index="[9]" Value="0.0"/>
+								<Element Index="[10]" Value="0.0"/>
+								<Element Index="[11]" Value="0.0"/>
+								<Element Index="[12]" Value="0.0"/>
+								<Element Index="[13]" Value="0.0"/>
+								<Element Index="[14]" Value="0.0"/>
+								<Element Index="[15]" Value="0.0"/>
+								<Element Index="[16]" Value="0.0"/>
+								<Element Index="[17]" Value="0.0"/>
+								<Element Index="[18]" Value="0.0"/>
+								<Element Index="[19]" Value="0.0"/>
+								<Element Index="[20]" Value="0.0"/>
+								<Element Index="[21]" Value="0.0"/>
+								<Element Index="[22]" Value="0.0"/>
+								<Element Index="[23]" Value="0.0"/>
+								<Element Index="[24]" Value="0.0"/>
+								<Element Index="[25]" Value="0.0"/>
+								<Element Index="[26]" Value="0.0"/>
+								<Element Index="[27]" Value="0.0"/>
+								<Element Index="[28]" Value="0.0"/>
+								<Element Index="[29]" Value="0.0"/>
+								<Element Index="[30]" Value="0.0"/>
+								<Element Index="[31]" Value="0.0"/>
+								<Element Index="[32]" Value="0.0"/>
+								<Element Index="[33]" Value="0.0"/>
+								<Element Index="[34]" Value="0.0"/>
+								<Element Index="[35]" Value="0.0"/>
+								<Element Index="[36]" Value="0.0"/>
+								<Element Index="[37]" Value="0.0"/>
+								<Element Index="[38]" Value="0.0"/>
+								<Element Index="[39]" Value="0.0"/>
+							</Array>
+						</Data>
+					</Tag>
+					<Tag Name="WTU_X_WriteData" TagType="Base" DataType="MESSAGE" ExternalAccess="Read/Write">
+						<Data Format="Message">
+							<MessageParameters MessageType="CIP Data Table Write" RemoteElement="InputData" RequestedLength="40" ConnectedFlag="1" ConnectionPath="WTU_X_Device" CommTypeCode="0" LocalIndex="0" LocalElement="WTU_X_WriteElement" CacheConnections="TRUE"/>
+						</Data>
+					</Tag>
+					<Tag Name="WTU_X_WriteElement" TagType="Base" DataType="LREAL" Dimensions="40" Radix="Float" Constant="false" ExternalAccess="Read/Write">
+						<Data Format="L5K">
+							<![CDATA[[0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000
+		,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000
+		,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000
+		,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000
+		,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000
+		,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000
+		,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000
+		,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000
+		,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000
+		,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000,0.0000000000000000e+000
+		]]]>
+						</Data>
+						<Data Format="Decorated">
+							<Array DataType="LREAL" Dimensions="40" Radix="Float">
+								<Element Index="[0]" Value="0.0"/>
+								<Element Index="[1]" Value="0.0"/>
+								<Element Index="[2]" Value="0.0"/>
+								<Element Index="[3]" Value="0.0"/>
+								<Element Index="[4]" Value="0.0"/>
+								<Element Index="[5]" Value="0.0"/>
+								<Element Index="[6]" Value="0.0"/>
+								<Element Index="[7]" Value="0.0"/>
+								<Element Index="[8]" Value="0.0"/>
+								<Element Index="[9]" Value="0.0"/>
+								<Element Index="[10]" Value="0.0"/>
+								<Element Index="[11]" Value="0.0"/>
+								<Element Index="[12]" Value="0.0"/>
+								<Element Index="[13]" Value="0.0"/>
+								<Element Index="[14]" Value="0.0"/>
+								<Element Index="[15]" Value="0.0"/>
+								<Element Index="[16]" Value="0.0"/>
+								<Element Index="[17]" Value="0.0"/>
+								<Element Index="[18]" Value="0.0"/>
+								<Element Index="[19]" Value="0.0"/>
+								<Element Index="[20]" Value="0.0"/>
+								<Element Index="[21]" Value="0.0"/>
+								<Element Index="[22]" Value="0.0"/>
+								<Element Index="[23]" Value="0.0"/>
+								<Element Index="[24]" Value="0.0"/>
+								<Element Index="[25]" Value="0.0"/>
+								<Element Index="[26]" Value="0.0"/>
+								<Element Index="[27]" Value="0.0"/>
+								<Element Index="[28]" Value="0.0"/>
+								<Element Index="[29]" Value="0.0"/>
+								<Element Index="[30]" Value="0.0"/>
+								<Element Index="[31]" Value="0.0"/>
+								<Element Index="[32]" Value="0.0"/>
+								<Element Index="[33]" Value="0.0"/>
+								<Element Index="[34]" Value="0.0"/>
+								<Element Index="[35]" Value="0.0"/>
+								<Element Index="[36]" Value="0.0"/>
+								<Element Index="[37]" Value="0.0"/>
+								<Element Index="[38]" Value="0.0"/>
+								<Element Index="[39]" Value="0.0"/>
+							</Array>
+						</Data>
+					</Tag>
+				</Tags>
+				<Routines Use="Context">
+					<Routine Use="Target" Name="WTU_X" Type="RLL">
+						<RLLContent>
+							<Rung Number="0" Type="N">
+								<Text>
+									<![CDATA[AFI()OTE(WTU_X.Reset);]]>
+								</Text>
+							</Rung>
+							<Rung Number="1" Type="N">
+								<Text>
+									<![CDATA[AFI()OTE(WTU_X.C1_Start);]]>
+								</Text>
+							</Rung>
+							<Rung Number="2" Type="N">
+								<Text>
+									<![CDATA[AFI()OTE(WTU_X.C1_Select_Mode);]]>
+								</Text>
+							</Rung>
+							<Rung Number="3" Type="N">
+								<Text>
+									<![CDATA[AFI()OTE(WTU_X.C2_Start);]]>
+								</Text>
+							</Rung>
+							<Rung Number="4" Type="N">
+								<Text>
+									<![CDATA[AFI()OTE(WTU_X.C2_Select_Mode);]]>
+								</Text>
+							</Rung>
+							<Rung Number="5" Type="N">
+								<Text>
+									<![CDATA[WaterCircuit(WTU_X,WTU_X_ReadElement,WTU_X_ReadData,WTU_X_WriteElement,WTU_X_WriteData,WTU_X.Reset,dscript_parameter_WTU_X[0].Value,dscript_parameter_WTU_X[1].Value,dscript_parameter_WTU_X[2].Value,dscript_parameter_WTU_X[3].Value,dscript_parameter_WTU_X[4].Value,dscript_parameter_WTU_X[5].Value,dscript_parameter_WTU_X[6].Value,dscript_parameter_WTU_X[7].Value,dscript_parameter_WTU_X[8].Value,dscript_parameter_WTU_X[9].Value);]]>
+								</Text>
+							</Rung>
+							<Rung Number="6" Type="N">
+								<Comment>
+									<![CDATA[WTU_X
+
+C1 alarms]]>
+								</Comment>
+								<Text>
+									<![CDATA[NOP();]]>
+								</Text>
+							</Rung>
+							<Rung Number="7" Type="N">
+								<Text>
+									<![CDATA[XIC(WTU_X.ALARM_C1_PressureFaulted)ALMD(Alarm1_WTU_X,0,WTU_X.Reset,0,1);]]>
+								</Text>
+							</Rung>
+							<Rung Number="8" Type="N">
+								<Text>
+									<![CDATA[XIC(WTU_X.ALARM_C1_Overload_CirculationPump)ALMD(Alarm2_WTU_X,0,WTU_X.Reset,0,1);]]>
+								</Text>
+							</Rung>
+							<Rung Number="9" Type="N">
+								<Text>
+									<![CDATA[XIC(WTU_X.ALARM_C1_Overload_Heatingelment)ALMD(Alarm3_WTU_X,0,WTU_X.Reset,0,1);]]>
+								</Text>
+							</Rung>
+							<Rung Number="10" Type="N">
+								<Text>
+									<![CDATA[XIC(WTU_X.ALARM_C1_Max_TemperatureSwitch)ALMD(Alarm4_WTU_X,0,WTU_X.Reset,0,1);]]>
+								</Text>
+							</Rung>
+							<Rung Number="11" Type="N">
+								<Text>
+									<![CDATA[XIC(WTU_X.ALARM_C1_TemperatureSensorLost)ALMD(Alarm5_WTU_X,0,WTU_X.Reset,0,1);]]>
+								</Text>
+							</Rung>
+							<Rung Number="12" Type="N">
+								<Comment>
+									<![CDATA[WTU_X
+
+C2 alarms]]>
+								</Comment>
+								<Text>
+									<![CDATA[NOP();]]>
+								</Text>
+							</Rung>
+							<Rung Number="13" Type="N">
+								<Text>
+									<![CDATA[XIC(WTU_X.ALARM_C2_PressureFaulted)ALMD(Alarm10_WTU_X,0,WTU_X.Reset,0,1);]]>
+								</Text>
+							</Rung>
+							<Rung Number="14" Type="N">
+								<Text>
+									<![CDATA[XIC(WTU_X.ALARM_C2_Overload_CirculationPump)ALMD(Alarm11_WTU_X,0,WTU_X.Reset,0,1);]]>
+								</Text>
+							</Rung>
+							<Rung Number="15" Type="N">
+								<Text>
+									<![CDATA[XIC(WTU_X.ALARM_C2_Overload_Heatingelment)ALMD(Alarm12_WTU_X,0,WTU_X.Reset,0,1);]]>
+								</Text>
+							</Rung>
+							<Rung Number="16" Type="N">
+								<Text>
+									<![CDATA[XIC(WTU_X.ALARM_C2_Max_TemperatureSwitch)ALMD(Alarm13_WTU_X,0,WTU_X.Reset,0,1);]]>
+								</Text>
+							</Rung>
+							<Rung Number="17" Type="N">
+								<Text>
+									<![CDATA[XIC(WTU_X.ALARM_C2_TemperatureSensorLost)ALMD(Alarm14_WTU_X,0,WTU_X.Reset,0,1);]]>
+								</Text>
+							</Rung>
+						</RLLContent>
+					</Routine>
+				</Routines>
+			</Program>
+		</Programs>
+	</Controller>
+</RSLogix5000Content>
